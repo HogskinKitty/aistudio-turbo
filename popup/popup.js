@@ -12,6 +12,7 @@ const DEFAULT_CONFIG = {
   noRipple: true,
   flatShadow: true,
   reduceLayers: true,
+  roundedPrompt: true,
   showHud: false
 };
 
@@ -38,6 +39,7 @@ const optionInputs = {
   fastTransition: document.getElementById('opt-fast-transition'),
   noRipple: document.getElementById('opt-no-ripple'),
   reduceLayers: document.getElementById('opt-reduce-layers'),
+  roundedPrompt: document.getElementById('opt-rounded-prompt'),
   showHud: document.getElementById('opt-show-hud')
 };
 

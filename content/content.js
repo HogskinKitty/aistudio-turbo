@@ -16,6 +16,7 @@
     noRipple: true,
     flatShadow: true,
     reduceLayers: true,
+    roundedPrompt: true,
     showHud: false
   };
 
@@ -60,7 +61,8 @@
         'turbo-fast-transition',
         'turbo-no-ripple',
         'turbo-flat-shadow',
-        'turbo-reduce-layers'
+        'turbo-reduce-layers',
+        'turbo-rounded-prompt'
       );
       destroyHud();
       return;
@@ -78,7 +80,8 @@
         'turbo-fast-transition',
         'turbo-no-ripple',
         'turbo-flat-shadow',
-        'turbo-reduce-layers'
+        'turbo-reduce-layers',
+        'turbo-rounded-prompt'
       );
     } else if (config.mode === 'turbo') {
       root.classList.remove('turbo-ultra');
@@ -89,6 +92,7 @@
       root.classList.toggle('turbo-no-ripple', true);
       root.classList.toggle('turbo-flat-shadow', true);
       root.classList.toggle('turbo-reduce-layers', true);
+      root.classList.toggle('turbo-rounded-prompt', true);
     } else {
       // 自定义模式
       root.classList.remove('turbo-ultra');
@@ -99,6 +103,7 @@
       root.classList.toggle('turbo-no-ripple', Boolean(config.noRipple));
       root.classList.toggle('turbo-flat-shadow', Boolean(config.flatShadow));
       root.classList.toggle('turbo-reduce-layers', Boolean(config.reduceLayers));
+      root.classList.toggle('turbo-rounded-prompt', Boolean(config.roundedPrompt !== false));
     }
 
     // 监控 HUD 控制

@@ -98,7 +98,10 @@ const requiredSelectors = [
   '.mat-ripple-element',
   '.mdc-button__ripple',
   'ms-gradient-spinner',
-  '#aistudio-turbo-hud'
+  '#aistudio-turbo-hud',
+  '.prompt-box-container',
+  'ms-prompt-box',
+  '.dragging-overlay'
 ];
 
 requiredSelectors.forEach((sel) => {
@@ -111,6 +114,7 @@ assert(cssContent.includes('scroll-behavior: auto !important'), '包含 scroll-b
 assert(cssContent.includes('animation: none !important'), '包含 animation: none !important 装饰动画停用声明');
 assert(cssContent.includes('transition-duration: 0.01ms !important'), '包含 transition-duration 极速过渡声明');
 assert(cssContent.includes('will-change: auto !important'), '包含 will-change: auto !important 显存防暴增声明');
+assert(cssContent.includes('border-radius: 24px !important'), '包含 border-radius: 24px !important 提示词输入框圆角美化声明');
 
 // ------------------------------------------------------------------
 // 测试组 3: JavaScript 源码静态分析与语法有效性
@@ -187,7 +191,8 @@ function simulateApplyConfig(config, docEl) {
       'turbo-fast-transition',
       'turbo-no-ripple',
       'turbo-flat-shadow',
-      'turbo-reduce-layers'
+      'turbo-reduce-layers',
+      'turbo-rounded-prompt'
     );
     return;
   }
@@ -203,7 +208,8 @@ function simulateApplyConfig(config, docEl) {
       'turbo-fast-transition',
       'turbo-no-ripple',
       'turbo-flat-shadow',
-      'turbo-reduce-layers'
+      'turbo-reduce-layers',
+      'turbo-rounded-prompt'
     );
   } else if (config.mode === 'turbo') {
     root.classList.remove('turbo-ultra');
@@ -214,6 +220,7 @@ function simulateApplyConfig(config, docEl) {
     root.classList.toggle('turbo-no-ripple', true);
     root.classList.toggle('turbo-flat-shadow', true);
     root.classList.toggle('turbo-reduce-layers', true);
+    root.classList.toggle('turbo-rounded-prompt', true);
   } else {
     root.classList.remove('turbo-ultra');
     root.classList.toggle('turbo-no-blur', Boolean(config.noBlur));
@@ -223,6 +230,7 @@ function simulateApplyConfig(config, docEl) {
     root.classList.toggle('turbo-no-ripple', Boolean(config.noRipple));
     root.classList.toggle('turbo-flat-shadow', Boolean(config.flatShadow));
     root.classList.toggle('turbo-reduce-layers', Boolean(config.reduceLayers));
+    root.classList.toggle('turbo-rounded-prompt', Boolean(config.roundedPrompt !== false));
   }
 }
 
@@ -232,22 +240,26 @@ assert(mockDocElement.classList.contains('aistudio-turbo-enabled'), 'Turbo 模�
 assert(mockDocElement.classList.contains('turbo-no-blur'), 'Turbo 模式下成功施加 turbo-no-blur');
 assert(mockDocElement.classList.contains('turbo-no-anim'), 'Turbo 模式下成功施加 turbo-no-anim');
 assert(mockDocElement.classList.contains('turbo-fast-scroll'), 'Turbo 模式下成功施加 turbo-fast-scroll');
+assert(mockDocElement.classList.contains('turbo-rounded-prompt'), 'Turbo 模式下成功施加 turbo-rounded-prompt');
 assert(!mockDocElement.classList.contains('turbo-ultra'), 'Turbo 模式下不包含 turbo-ultra');
 
 // Case 4.2: Ultra 极致模式生效
 simulateApplyConfig({ enabled: true, mode: 'ultra' }, mockDocElement);
 assert(mockDocElement.classList.contains('turbo-ultra'), 'Ultra 模式下成功激活 turbo-ultra 标识');
+assert(mockDocElement.classList.contains('turbo-rounded-prompt'), 'Ultra 模式下包含 turbo-rounded-prompt');
 
 // Case 4.3: 自定义模式局部开关生效
-simulateApplyConfig({ enabled: true, mode: 'custom', noBlur: true, noAnim: false, fastScroll: true }, mockDocElement);
+simulateApplyConfig({ enabled: true, mode: 'custom', noBlur: true, noAnim: false, fastScroll: true, roundedPrompt: false }, mockDocElement);
 assert(mockDocElement.classList.contains('turbo-no-blur'), '自定义模式下 noBlur=true 生效');
 assert(!mockDocElement.classList.contains('turbo-no-anim'), '自定义模式下 noAnim=false 成功排除');
 assert(mockDocElement.classList.contains('turbo-fast-scroll'), '自定义模式下 fastScroll=true 生效');
+assert(!mockDocElement.classList.contains('turbo-rounded-prompt'), '自定义模式下 roundedPrompt=false 成功排除');
 
 // Case 4.4: 彻底停用
 simulateApplyConfig({ enabled: false }, mockDocElement);
 assert(!mockDocElement.classList.contains('aistudio-turbo-enabled'), '总开关关闭后所有 turbo 类名完全清除');
 assert(!mockDocElement.classList.contains('turbo-no-blur'), '关闭后无任何残留优化类名');
+assert(!mockDocElement.classList.contains('turbo-rounded-prompt'), '关闭后无任何残留圆角类名');
 
 // ------------------------------------------------------------------
 // 测试组 5: 主世界 page-world.js 平滑滚动拦截器仿真

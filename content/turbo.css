@@ -265,3 +265,22 @@ html.aistudio-turbo-enabled.turbo-ultra .mat-mdc-menu-panel {
 #aistudio-turbo-hud .fps-low {
   color: #ea4335;
 }
+
+/* ==========================================================================
+   10. 提示词输入框圆角美化 (Enhanced Prompt Box Rounded Corners)
+   - 将 https://aistudio.google.com/prompts/new_chat 底部提示词输入框整块的四周外边框调整得更加圆润自然 (从默认 12px 升级至 24px)
+   - 同步适配拖拽上传高亮层 (dragging-overlay) 与禁用遮罩 (disabled::before)，保持圆角边缘无锯齿与溢出
+   ========================================================================== */
+
+html.aistudio-turbo-enabled.turbo-rounded-prompt .prompt-box-container,
+html.aistudio-turbo-enabled.turbo-rounded-prompt ms-prompt-box .prompt-box-container {
+  border-radius: 24px !important;
+}
+
+html.aistudio-turbo-enabled.turbo-rounded-prompt ms-prompt-box .dragging-overlay {
+  border-radius: 24px !important;
+}
+
+html.aistudio-turbo-enabled.turbo-rounded-prompt .prompt-box-container.disabled::before {
+  border-radius: 24px !important;
+}
