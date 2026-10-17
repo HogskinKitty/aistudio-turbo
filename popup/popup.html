@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Studio Turbo</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- 头部区域 -->
+    <header class="header">
+      <div class="header-brand">
+        <img src="../icons/icon32.png" alt="Turbo Logo" class="brand-logo">
+        <div class="brand-text">
+          <h1 class="brand-title">AI Studio Turbo</h1>
+          <span class="brand-subtitle">GPU 减负 & 流畅度优化</span>
+        </div>
+      </div>
+      <!-- 总开关 -->
+      <label class="switch" title="开启/关闭优化">
+        <input type="checkbox" id="master-toggle" checked>
+        <span class="slider"></span>
+      </label>
+    </header>
+
+    <!-- 运行状态卡片 -->
+    <div class="status-banner" id="status-banner">
+      <div class="status-indicator active" id="status-indicator"></div>
+      <span class="status-text" id="status-text">优化已生效 · 零延迟热切换</span>
+    </div>
+
+    <!-- 模式选择器 -->
+    <section class="section">
+      <div class="section-label">优化模式</div>
+      <div class="mode-selector">
+        <button class="mode-btn active" data-mode="turbo" id="btn-mode-turbo">
+          <span class="mode-icon">⚡</span>
+          <span class="mode-name">Turbo 极速</span>
+          <span class="mode-desc">推荐 · 平衡画质与性能</span>
+        </button>
+        <button class="mode-btn" data-mode="ultra" id="btn-mode-ultra">
+          <span class="mode-icon">🚀</span>
+          <span class="mode-name">Ultra 极致</span>
+          <span class="mode-desc">极老设备 / 核显专用</span>
+        </button>
+        <button class="mode-btn" data-mode="custom" id="btn-mode-custom">
+          <span class="mode-icon">🛠️</span>
+          <span class="mode-name">自定义</span>
+          <span class="mode-desc">按需自由组合开关</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 自定义专项调节 (在自定义模式下可见) -->
+    <section class="section custom-section" id="custom-options">
+      <div class="section-label">自定义优化项目</div>
+      
+      <div class="option-item">
+        <div class="option-info">
+          <span class="option-title">消除高斯模糊 (Backdrop Blur)</span>
+          <span class="option-desc">平替 200px/80px 毛玻璃，消除核心掉帧根源</span>
+        </div>
+        <label class="mini-switch">
+          <input type="checkbox" id="opt-no-blur" checked>
+          <span class="mini-slider"></span>
+        </label>
+      </div>
+
+      <div class="option-item">
+        <div class="option-info">
+          <span class="option-title">停用装饰性无限循环动画</span>
+          <span class="option-desc">冻结光效/波纹/光晕/微动，闲置时 GPU 零功耗</span>
+        </div>
+        <label class="mini-switch">
+          <input type="checkbox" id="opt-no-anim" checked>
+          <span class="mini-slider"></span>
+        </label>
+      </div>
+
+      <div class="option-item">
+        <div class="option-info">
+          <span class="option-title">流式输出瞬时滚动 (Fast Streaming)</span>
+          <span class="option-desc">禁用平滑滚动动画，彻底解决逐字输出卡顿</span>
+        </div>
+        <label class="mini-switch">
+          <input type="checkbox" id="opt-fast-scroll" checked>
+          <span class="mini-slider"></span>
+        </label>
+      </div>
+
+      <div class="option-item">
+        <div class="option-info">
+          <span class="option-title">交互过渡零延迟 (Instant Transitions)</span>
+          <span class="option-desc">弹窗、菜单、侧边栏点击秒开无拖延</span>
+        </div>
+        <label class="mini-switch">
+          <input type="checkbox" id="opt-fast-transition" checked>
+          <span class="mini-slider"></span>
+        </label>
+      </div>
+
+      <div class="option-item">
+        <div class="option-info">
+          <span class="option-title">禁用按键点击涟漪 (Disable Ripples)</span>
+          <span class="option-desc">移除 Material Ripple 节点，按钮反应更敏捷</span>
+        </div>
+        <label class="mini-switch">
+          <input type="checkbox" id="opt-no-ripple" checked>
+          <span class="mini-slider"></span>
+        </label>
+      </div>
+
+      <div class="option-item">
+        <div class="option-info">
+          <span class="option-title">精简 GPU 合成图层 (Layer Reduction)</span>
+          <span class="option-desc">移除冗余 3D 转换与 will-change，节约显存</span>
+        </div>
+        <label class="mini-switch">
+          <input type="checkbox" id="opt-reduce-layers" checked>
+          <span class="mini-slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- 实用工具 -->
+    <section class="section">
+      <div class="tool-item">
+        <div class="option-info">
+          <span class="option-title">实时 FPS 性能监控悬浮窗</span>
+          <span class="option-desc">在页面右上角显示当前实时帧率与模式</span>
+        </div>
+        <label class="mini-switch">
+          <input type="checkbox" id="opt-show-hud">
+          <span class="mini-slider"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- 底部区域 -->
+    <footer class="footer">
+      <button class="reset-btn" id="btn-reset">恢复默认预设</button>
+      <span class="footer-tip">v1.0.0 · 修改即时生效</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

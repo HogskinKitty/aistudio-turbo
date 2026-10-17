@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "AI Studio Turbo - GPU & Animation Optimizer",
+  "version": "1.0.0",
+  "description": "优化 Google AI Studio 渲染负担与过渡动画，大幅降低老设备 GPU 消耗，保持原生功能与操作流畅度",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://aistudio.google.com/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "AI Studio Turbo 控制面板",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://aistudio.google.com/*"
+      ],
+      "css": [
+        "content/turbo.css"
+      ],
+      "js": [
+        "content/content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content/page-world.js",
+        "icons/*"
+      ],
+      "matches": [
+        "https://aistudio.google.com/*"
+      ]
+    }
+  ]
+}

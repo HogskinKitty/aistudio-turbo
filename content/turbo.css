@@ -1,0 +1,267 @@
+/**
+ * AI Studio Turbo - GPU & Animation Optimizer Stylesheet
+ * 专注于降低 https://aistudio.google.com/ 的 GPU 负载与内存消耗，保持原生操作与界面流畅
+ */
+
+/* ==========================================================================
+   1. 核心控制器与全局变量平替（Light / Dark 主题自适应）
+   ========================================================================== */
+
+html.aistudio-turbo-enabled {
+  --turbo-transition-duration: 0.01ms !important;
+  --turbo-animation-duration: 0.01ms !important;
+}
+
+/* ==========================================================================
+   2. 毛玻璃高斯模糊消除 (Eliminate Backdrop-Filter Blurs)
+   - 彻底关闭全屏和浮层高斯模糊，替换为轻量主题色背景，杜绝老旧显卡多通道重绘
+   ========================================================================== */
+
+html.aistudio-turbo-enabled.turbo-no-blur,
+html.aistudio-turbo-enabled.turbo-no-blur * {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 弹窗与抽屉蒙层平替：采用半透明纯色遮罩，清晰护眼且无 GPU 采样计算 */
+html.aistudio-turbo-enabled.turbo-no-blur .overlay-backdrop,
+html.aistudio-turbo-enabled.turbo-no-blur .dialog-backdrop-blur-overlay,
+html.aistudio-turbo-enabled.turbo-no-blur .cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 账户切换浮层面板 */
+html.aistudio-turbo-enabled.turbo-no-blur .cdk-overlay-container .ms-account-switcher-panel,
+html.aistudio-turbo-enabled.turbo-no-blur .dark-theme .cdk-overlay-container .ms-account-switcher-panel {
+  background-color: var(--color-v3-surface-container-high, #282a2d) !important;
+  border: 1px solid var(--color-v3-surface-left-nav-border, rgba(255, 255, 255, 0.12)) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 悬浮菜单与导航飞入面板 */
+html.aistudio-turbo-enabled.turbo-no-blur .nav-flyout-panel {
+  background: var(--color-v3-surface-container, #1e1f20) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 顶部与侧边导航条 */
+html.aistudio-turbo-enabled.turbo-no-blur .nav,
+html.aistudio-turbo-enabled.turbo-no-blur header,
+html.aistudio-turbo-enabled.turbo-no-blur ms-header {
+  background-color: var(--color-v3-surface, #131314) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 侧边栏及全屏遮罩 */
+html.aistudio-turbo-enabled.turbo-no-blur .sidebar-overlay,
+html.aistudio-turbo-enabled.turbo-no-blur ms-sidebar {
+  background-color: var(--color-v3-surface, #131314) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* 媒体预览与控制面板 */
+html.aistudio-turbo-enabled.turbo-no-blur .media-preview-card .text-and-controls-container,
+html.aistudio-turbo-enabled.turbo-no-blur .fullscreen-left-controls,
+html.aistudio-turbo-enabled.turbo-no-blur .fullscreen-right-controls,
+html.aistudio-turbo-enabled.turbo-no-blur .exit-fullscreen-button,
+html.aistudio-turbo-enabled.turbo-no-blur .video-sound-container {
+  background: var(--color-v3-surface-container-high, rgba(30, 31, 32, 0.95)) !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+
+/* ==========================================================================
+   3. 装饰性无限循环动画冻结 (Freeze Infinite Decorative Animations)
+   - 彻底停用跑马灯、旋转光晕、微动飘移，页面静止时 GPU 显卡可进入零功耗待机
+   ========================================================================== */
+
+html.aistudio-turbo-enabled.turbo-no-anim [class*="shimmer"],
+html.aistudio-turbo-enabled.turbo-no-anim [class*="sparkle"],
+html.aistudio-turbo-enabled.turbo-no-anim [class*="pulse"],
+html.aistudio-turbo-enabled.turbo-no-anim [class*="halo"],
+html.aistudio-turbo-enabled.turbo-no-anim .glowing,
+html.aistudio-turbo-enabled.turbo-no-anim .welcome_sparkle,
+html.aistudio-turbo-enabled.turbo-no-anim .big_sparkle,
+html.aistudio-turbo-enabled.turbo-no-anim .SafetyPulse,
+html.aistudio-turbo-enabled.turbo-no-anim .AddGlow,
+html.aistudio-turbo-enabled.turbo-no-anim .addglow_poses,
+html.aistudio-turbo-enabled.turbo-no-anim .addglow_ghostmannequin,
+html.aistudio-turbo-enabled.turbo-no-anim .addglow_backgrounds,
+html.aistudio-turbo-enabled.turbo-no-anim .pay-per-request-card-wrapper,
+html.aistudio-turbo-enabled.turbo-no-anim .empty-state__art,
+html.aistudio-turbo-enabled.turbo-no-anim .empty-state__description {
+  animation: none !important;
+  -webkit-animation: none !important;
+}
+
+/* 优化加载 Spinner：用轻量 2D 单层旋转代替复杂多层 SVG/渐变合成 */
+html.aistudio-turbo-enabled.turbo-no-anim ms-gradient-spinner,
+html.aistudio-turbo-enabled.turbo-no-anim mat-progress-spinner,
+html.aistudio-turbo-enabled.turbo-no-anim .mdc-circular-progress {
+  will-change: auto !important;
+}
+
+/* ==========================================================================
+   4. 对话流式输出与滚动瞬时化 (Instant Streaming & Scroll Optimization)
+   - 移除平滑滚动与动态计算，彻底解决长文本生成与代码流式输出时的严重掉帧卡顿
+   ========================================================================== */
+
+html.aistudio-turbo-enabled.turbo-fast-scroll,
+html.aistudio-turbo-enabled.turbo-fast-scroll body,
+html.aistudio-turbo-enabled.turbo-fast-scroll ms-autoscroll-container,
+html.aistudio-turbo-enabled.turbo-fast-scroll ms-chat-session,
+html.aistudio-turbo-enabled.turbo-fast-scroll .chat-session-content,
+html.aistudio-turbo-enabled.turbo-fast-scroll [scrollable] {
+  scroll-behavior: auto !important;
+}
+
+/* 消除滚动时代码块与对话动作栏的持续 0.6s 延迟重绘 */
+html.aistudio-turbo-enabled.turbo-fast-scroll ms-chat-turn .actions-container,
+html.aistudio-turbo-enabled.turbo-fast-scroll ms-chat-turn .chat-turn-container.code-block-aligner .actions-container {
+  transition: none !important;
+  -webkit-transition: none !important;
+  will-change: auto !important;
+}
+
+/* ==========================================================================
+   5. 交互过度动画降级 (Instant UI Transitions)
+   - 菜单、弹窗、侧边栏点击秒开，响应零延迟
+   ========================================================================== */
+
+html.aistudio-turbo-enabled.turbo-fast-transition .mat-mdc-menu-panel,
+html.aistudio-turbo-enabled.turbo-fast-transition .mat-mdc-select-panel,
+html.aistudio-turbo-enabled.turbo-fast-transition .mat-mdc-dialog-container,
+html.aistudio-turbo-enabled.turbo-fast-transition .mat-drawer,
+html.aistudio-turbo-enabled.turbo-fast-transition .ms-account-switcher-panel,
+html.aistudio-turbo-enabled.turbo-fast-transition .nav-flyout-panel,
+html.aistudio-turbo-enabled.turbo-fast-transition ms-button,
+html.aistudio-turbo-enabled.turbo-fast-transition button,
+html.aistudio-turbo-enabled.turbo-fast-transition input,
+html.aistudio-turbo-enabled.turbo-fast-transition .mat-mdc-tab-body-content {
+  transition-duration: 0.01ms !important;
+  -webkit-transition-duration: 0.01ms !important;
+  animation-duration: 0.01ms !important;
+  -webkit-animation-duration: 0.01ms !important;
+}
+
+/* ==========================================================================
+   6. 禁用点击涟漪 (Disable Material Ripple Bloat)
+   - 消除按钮点击时创建的大量动态 Ripple DOM 节点与透明度扩散绘制
+   ========================================================================== */
+
+html.aistudio-turbo-enabled.turbo-no-ripple .mat-ripple-element,
+html.aistudio-turbo-enabled.turbo-no-ripple .mdc-button__ripple,
+html.aistudio-turbo-enabled.turbo-no-ripple .mat-mdc-button-ripple,
+html.aistudio-turbo-enabled.turbo-no-ripple .mat-mdc-focus-indicator,
+html.aistudio-turbo-enabled.turbo-no-ripple mat-ripple {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* ==========================================================================
+   7. 阴影扁平化与图层精简 (Shadow Flattening & Layer Reduction)
+   - 移除不必要的 translate3d 强制升层与深层模糊阴影，节省显存（VRAM）
+   ========================================================================== */
+
+html.aistudio-turbo-enabled.turbo-flat-shadow {
+  --color-v3-shadow-lg: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  --color-v3-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.aistudio-turbo-enabled.turbo-flat-shadow .cdk-overlay-pane,
+html.aistudio-turbo-enabled.turbo-flat-shadow .mat-mdc-dialog-container,
+html.aistudio-turbo-enabled.turbo-flat-shadow .mat-mdc-menu-panel,
+html.aistudio-turbo-enabled.turbo-flat-shadow .ms-account-switcher-panel {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35) !important;
+}
+
+html.aistudio-turbo-enabled.turbo-reduce-layers .mat-raised-button,
+html.aistudio-turbo-enabled.turbo-reduce-layers .mat-mini-fab,
+html.aistudio-turbo-enabled.turbo-reduce-layers .mat-fab {
+  transform: none !important;
+}
+
+html.aistudio-turbo-enabled.turbo-reduce-layers * {
+  will-change: auto !important;
+}
+
+/* ==========================================================================
+   8. 极致模式专属强化 (Ultra Potato Mode Extra Optimizations)
+   ========================================================================== */
+
+html.aistudio-turbo-enabled.turbo-ultra * {
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+html.aistudio-turbo-enabled.turbo-ultra .cdk-overlay-pane,
+html.aistudio-turbo-enabled.turbo-ultra .mat-mdc-dialog-container,
+html.aistudio-turbo-enabled.turbo-ultra .mat-mdc-menu-panel {
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* ==========================================================================
+   9. 性能监控 HUD 悬浮指示器样式 (Performance Monitor HUD)
+   ========================================================================== */
+
+#aistudio-turbo-hud {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 999999;
+  background: rgba(18, 19, 23, 0.92);
+  color: #e3e3e3;
+  border: 1px solid #3c4043;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 130px;
+  transition: opacity 0.2s ease;
+}
+
+#aistudio-turbo-hud .hud-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+  font-weight: 600;
+  color: #8ab4f8;
+}
+
+#aistudio-turbo-hud .hud-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+#aistudio-turbo-hud .hud-val {
+  font-weight: 600;
+}
+
+#aistudio-turbo-hud .fps-high {
+  color: #34a853;
+}
+
+#aistudio-turbo-hud .fps-mid {
+  color: #fbbc04;
+}
+
+#aistudio-turbo-hud .fps-low {
+  color: #ea4335;
+}

@@ -1,0 +1,18 @@
+{
+  "name": "aistudio-turbo",
+  "version": "1.0.0",
+  "description": "Chrome extension to optimize Google AI Studio GPU rendering performance and eliminate animation lag",
+  "main": "background/background.js",
+  "scripts": {
+    "test": "node test/run_tests.js"
+  },
+  "keywords": [
+    "aistudio",
+    "google-ai-studio",
+    "chrome-extension",
+    "gpu-optimization",
+    "performance"
+  ],
+  "author": "Antigravity",
+  "license": "MIT"
+}
