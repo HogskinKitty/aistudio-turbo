@@ -3,7 +3,7 @@
 # AI Studio Turbo
 
 <p align="center">
-  <img src="icons/icon128.png" width="96" height="96" alt="AI Studio Turbo Logo">
+  <img src="icons/Google_AI_Studio_icon.svg" width="96" height="96" alt="AI Studio Turbo Logo">
 </p>
 
 <p align="center">
@@ -103,7 +103,8 @@ The extension provides a clean, bilingual popup control panel allowing instant, 
 - Features a header toggle button (`EN` / `中`) for one-click manual language switching with persistent storage.
 
 ### 6. Visual Brand Identity & Iconography (`icons/`)
-- Faithfully adheres to the classic dual-capsule geometry of the official Google AI Studio brand icon (`Google_AI_Studio_icon_oragin.svg`), unified in an eco-friendly pure Google green palette (`#00B95C`). Pure green embodies Google's design heritage while representing clean efficiency and agile Turbo performance, delivering superior contrast and visual clarity across both dark and light browser toolbars.
+- Faithfully adheres to the classic dual-capsule geometry of the official Google AI Studio brand icon (`Google_AI_Studio_icon_oragin.svg`), directly utilizing the pure green (`#00B95C`) official vector icon (`Google_AI_Studio_icon.svg`).
+- Features a fully transparent background across all asset sizes, seamlessly adapting to both dark and light browser toolbars, extensions management pages, and control panel headers without white-box artifacts, embodying Google's design heritage with agile Turbo performance.
 
 ---
 
@@ -135,13 +136,13 @@ aistudio-turbo/
 ├── LICENSE                    # MIT Open Source License
 ├── README.md                  # Project Documentation (Simplified Chinese)
 ├── README_EN.md               # Project Documentation (English)
-├── icons/                     # Vector and raster application icons
-│   ├── Google_AI_Studio_icon.svg       # Official vector master (Pure green Turbo edition)
+├── icons/                     # Vector and transparent raster application icons
+│   ├── Google_AI_Studio_icon.svg       # Official vector master (Pure green Turbo edition, transparent background)
 │   ├── Google_AI_Studio_icon_oragin.svg # Official original vector archive
-│   ├── icon16.png             # 16x16 browser toolbar and favicon icon
-│   ├── icon32.png             # 32x32 Retina toolbar icon
-│   ├── icon48.png             # 48x48 extensions management page icon
-│   └── icon128.png            # 128x128 high-res web store and documentation icon
+│   ├── icon16.png             # 16x16 browser toolbar and favicon icon (Transparent)
+│   ├── icon32.png             # 32x32 Retina toolbar icon (Transparent)
+│   ├── icon48.png             # 48x48 extensions management page icon (Transparent)
+│   └── icon128.png            # 128x128 high-res web store and documentation icon (Transparent)
 ├── content/                   # Injected client-side logic
 │   ├── turbo.css              # Performance CSS optimization stylesheet
 │   ├── content.js             # Isolated world runtime class coordinator

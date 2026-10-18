@@ -3,7 +3,7 @@
 # AI Studio Turbo
 
 <p align="center">
-  <img src="icons/icon128.png" width="96" height="96" alt="AI Studio Turbo Logo">
+  <img src="icons/Google_AI_Studio_icon.svg" width="96" height="96" alt="AI Studio Turbo Logo">
 </p>
 
 <p align="center">
@@ -103,7 +103,8 @@ Google AI Studio 采用了高度现代化的 Web UI 体系（Angular Material 3�
 - 面板顶部提供轻量级一键切换按钮（`EN` / `中`），偏好设置实时持久化于本地存储。
 
 ### 6. 视觉设计与品牌图标规范 (`icons/`)
-- 严格遵循 Google AI Studio 官方双轨圆角几何流线（`Google_AI_Studio_icon_oragin.svg`）的经典构型，统一重塑为纯绿色调（`#00B95C`）。纯绿色兼具 Google 官方设计系统辨识度与环保低碳、性能轻快的 Turbo 特质，在各平台深色与浅色工具栏中均具备极佳的对比度与视觉张力。
+- 严格遵循 Google AI Studio 官方双轨圆角几何流线（`Google_AI_Studio_icon_oragin.svg`）的经典构型，直接采用纯绿色调（`#00B95C`）的官方矢量图标（`Google_AI_Studio_icon.svg`）。
+- 图标采用完全透明背景设计，完美适配深色与浅色浏览器工具栏、扩展程序管理页及控制面板，杜绝白色底框伪影，兼具 Google 官方辨识度与环保低碳、极致轻快的 Turbo 特质。
 
 ---
 
@@ -135,13 +136,13 @@ aistudio-turbo/
 ├── LICENSE                    # MIT 开源许可证
 ├── README.md                  # 项目中文说明文档
 ├── README_EN.md               # English Documentation
-├── icons/                     # 多尺寸高清矢量与位图资产
-│   ├── Google_AI_Studio_icon.svg       # 官方矢量原稿（纯绿环保 Turbo 版）
+├── icons/                     # 多尺寸高清矢量与透明背景位图资产
+│   ├── Google_AI_Studio_icon.svg       # 官方矢量原稿（纯绿环保 Turbo 版，透明背景）
 │   ├── Google_AI_Studio_icon_oragin.svg # 官方原版矢量存档
-│   ├── icon16.png             # 16x16 浏览器工具栏与 Favicon 图标
-│   ├── icon32.png             # 32x32 Retina 视网膜工具栏图标
-│   ├── icon48.png             # 48x48 扩展程序管理界面图标
-│   └── icon128.png            # 128x128 高清应用商店与文档展示图标
+│   ├── icon16.png             # 16x16 浏览器工具栏与 Favicon 图标（透明背景）
+│   ├── icon32.png             # 32x32 Retina 视网膜工具栏图标（透明背景）
+│   ├── icon48.png             # 48x48 扩展程序管理界面图标（透明背景）
+│   └── icon128.png            # 128x128 高清应用商店与文档展示图标（透明背景）
 ├── content/                   # 注入式核心模块
 │   ├── turbo.css              # GPU 减负与渲染降载 CSS 规则集
 │   ├── content.js             # 隔离世界类名管理与存储同步逻辑
