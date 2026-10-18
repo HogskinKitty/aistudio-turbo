@@ -103,7 +103,7 @@ The extension provides a clean, bilingual popup control panel allowing instant, 
 - Features a header toggle button (`EN` / `中`) for one-click manual language switching with persistent storage.
 
 ### 6. Visual Brand Identity & Iconography (`icons/`)
-- Creatively rotates the official Google AI Studio capsule geometry by 90° counter-clockwise, turning the diagonal gap into a dynamic Turbo lightning bolt that seamlessly conveys speed while preserving 100% of the official Google color heritage.
+- Faithfully adheres to the classic dual-capsule geometry of the official Google AI Studio brand icon (`Google_AI_Studio_icon_oragin.svg`), unified in an eco-friendly pure Google green palette (`#00B95C`). Pure green embodies Google's design heritage while representing clean efficiency and agile Turbo performance, delivering superior contrast and visual clarity across both dark and light browser toolbars.
 
 ---
 
@@ -136,7 +136,8 @@ aistudio-turbo/
 ├── README.md                  # Project Documentation (Simplified Chinese)
 ├── README_EN.md               # Project Documentation (English)
 ├── icons/                     # Vector and raster application icons
-│   ├── Google_AI_Studio_icon.svg       # Official vertical lightning vector master
+│   ├── Google_AI_Studio_icon.svg       # Official vector master (Pure green Turbo edition)
+│   ├── Google_AI_Studio_icon_oragin.svg # Official original vector archive
 │   ├── icon16.png             # 16x16 browser toolbar and favicon icon
 │   ├── icon32.png             # 32x32 Retina toolbar icon
 │   ├── icon48.png             # 48x48 extensions management page icon

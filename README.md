@@ -103,7 +103,7 @@ Google AI Studio 采用了高度现代化的 Web UI 体系（Angular Material 3�
 - 面板顶部提供轻量级一键切换按钮（`EN` / `中`），偏好设置实时持久化于本地存储。
 
 ### 6. 视觉设计与品牌图标规范 (`icons/`)
-- 巧妙将 Google AI Studio 官方圆角几何图案以逆时针 90° 竖放，斜切微隙天然呈现出凌厉的 Turbo 极速闪电走向，完美保留官方 4 色原生质感的同时注入高能速度感。
+- 严格遵循 Google AI Studio 官方双轨圆角几何流线（`Google_AI_Studio_icon_oragin.svg`）的经典构型，统一重塑为纯绿色调（`#00B95C`）。纯绿色兼具 Google 官方设计系统辨识度与环保低碳、性能轻快的 Turbo 特质，在各平台深色与浅色工具栏中均具备极佳的对比度与视觉张力。
 
 ---
 
@@ -136,7 +136,8 @@ aistudio-turbo/
 ├── README.md                  # 项目中文说明文档
 ├── README_EN.md               # English Documentation
 ├── icons/                     # 多尺寸高清矢量与位图资产
-│   ├── Google_AI_Studio_icon.svg       # 官方竖放极速闪电矢量原稿
+│   ├── Google_AI_Studio_icon.svg       # 官方矢量原稿（纯绿环保 Turbo 版）
+│   ├── Google_AI_Studio_icon_oragin.svg # 官方原版矢量存档
 │   ├── icon16.png             # 16x16 浏览器工具栏与 Favicon 图标
 │   ├── icon32.png             # 32x32 Retina 视网膜工具栏图标
 │   ├── icon48.png             # 48x48 扩展程序管理界面图标
