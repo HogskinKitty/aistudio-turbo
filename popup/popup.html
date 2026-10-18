@@ -24,30 +24,47 @@
       </label>
     </header>
 
-    <!-- 运行状态卡片 -->
-    <div class="status-banner" id="status-banner">
-      <div class="status-indicator active" id="status-indicator"></div>
-      <span class="status-text" id="status-text">优化已生效 · 零延迟热切换</span>
-    </div>
-
     <!-- 模式选择器 -->
     <section class="section">
       <div class="section-label">优化模式</div>
       <div class="mode-selector">
         <button class="mode-btn active" data-mode="turbo" id="btn-mode-turbo">
-          <span class="mode-icon">⚡</span>
+          <span class="mode-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+          </span>
           <span class="mode-name">Turbo 极速</span>
-          <span class="mode-desc">推荐 · 平衡画质与性能</span>
+          <span class="mode-desc">推荐 · 平衡性能与画质</span>
         </button>
         <button class="mode-btn" data-mode="ultra" id="btn-mode-ultra">
-          <span class="mode-icon">🚀</span>
+          <span class="mode-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+              <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+            </svg>
+          </span>
           <span class="mode-name">Ultra 极致</span>
-          <span class="mode-desc">极老设备 / 核显专用</span>
+          <span class="mode-desc">老旧核显 · 极致降耗</span>
         </button>
         <button class="mode-btn" data-mode="custom" id="btn-mode-custom">
-          <span class="mode-icon">🛠️</span>
+          <span class="mode-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="4" y1="21" x2="4" y2="14"></line>
+              <line x1="4" y1="10" x2="4" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12" y2="3"></line>
+              <line x1="20" y1="21" x2="20" y2="16"></line>
+              <line x1="20" y1="12" x2="20" y2="3"></line>
+              <line x1="1" y1="14" x2="7" y2="14"></line>
+              <line x1="9" y1="8" x2="15" y2="8"></line>
+              <line x1="17" y1="16" x2="23" y2="16"></line>
+            </svg>
+          </span>
           <span class="mode-name">自定义</span>
-          <span class="mode-desc">按需自由组合开关</span>
+          <span class="mode-desc">按需配置 · 自由组合</span>
         </button>
       </div>
     </section>
@@ -58,8 +75,8 @@
       
       <div class="option-item">
         <div class="option-info">
-          <span class="option-title">消除高斯模糊 (Backdrop Blur)</span>
-          <span class="option-desc">平替 200px/80px 毛玻璃，消除核心掉帧根源</span>
+          <span class="option-title">消除毛玻璃模糊</span>
+          <span class="option-desc">平替高斯模糊，杜绝界面重绘掉帧</span>
         </div>
         <label class="mini-switch">
           <input type="checkbox" id="opt-no-blur" checked>
@@ -69,8 +86,8 @@
 
       <div class="option-item">
         <div class="option-info">
-          <span class="option-title">停用装饰性无限循环动画</span>
-          <span class="option-desc">冻结光效/波纹/光晕/微动，闲置时 GPU 零功耗</span>
+          <span class="option-title">冻结装饰动画</span>
+          <span class="option-desc">停止循环光效微动，闲置零功耗</span>
         </div>
         <label class="mini-switch">
           <input type="checkbox" id="opt-no-anim" checked>
@@ -80,8 +97,8 @@
 
       <div class="option-item">
         <div class="option-info">
-          <span class="option-title">流式输出瞬时滚动 (Fast Streaming)</span>
-          <span class="option-desc">禁用平滑滚动动画，彻底解决逐字输出卡顿</span>
+          <span class="option-title">瞬时流式滚动</span>
+          <span class="option-desc">禁用平滑滚动，消除逐字打字卡顿</span>
         </div>
         <label class="mini-switch">
           <input type="checkbox" id="opt-fast-scroll" checked>
@@ -91,8 +108,8 @@
 
       <div class="option-item">
         <div class="option-info">
-          <span class="option-title">交互过渡零延迟 (Instant Transitions)</span>
-          <span class="option-desc">弹窗、菜单、侧边栏点击秒开无拖延</span>
+          <span class="option-title">零延迟交互过渡</span>
+          <span class="option-desc">弹窗与菜单秒开秒合，响应零等待</span>
         </div>
         <label class="mini-switch">
           <input type="checkbox" id="opt-fast-transition" checked>
@@ -102,8 +119,8 @@
 
       <div class="option-item">
         <div class="option-info">
-          <span class="option-title">禁用按键点击涟漪 (Disable Ripples)</span>
-          <span class="option-desc">移除 Material Ripple 节点，按钮反应更敏捷</span>
+          <span class="option-title">移除点击涟漪</span>
+          <span class="option-desc">停用 Material 涟漪，按键更轻快</span>
         </div>
         <label class="mini-switch">
           <input type="checkbox" id="opt-no-ripple" checked>
@@ -113,8 +130,8 @@
 
       <div class="option-item">
         <div class="option-info">
-          <span class="option-title">精简 GPU 合成图层 (Layer Reduction)</span>
-          <span class="option-desc">移除冗余 3D 转换与 will-change，节约显存</span>
+          <span class="option-title">精简渲染图层</span>
+          <span class="option-desc">减少 GPU 合成层，降低显存占用</span>
         </div>
         <label class="mini-switch">
           <input type="checkbox" id="opt-reduce-layers" checked>
@@ -124,25 +141,11 @@
 
       <div class="option-item">
         <div class="option-info">
-          <span class="option-title">提示词输入框圆角美化 (Rounded Prompt Box)</span>
-          <span class="option-desc">外边框升级为 24px 大圆角设计，视觉更圆润柔和</span>
+          <span class="option-title">输入框圆润边框</span>
+          <span class="option-desc">升级 24px 优雅大圆角，柔和美观</span>
         </div>
         <label class="mini-switch">
           <input type="checkbox" id="opt-rounded-prompt" checked>
-          <span class="mini-slider"></span>
-        </label>
-      </div>
-    </section>
-
-    <!-- 实用工具 -->
-    <section class="section">
-      <div class="tool-item">
-        <div class="option-info">
-          <span class="option-title">实时 FPS 性能监控悬浮窗</span>
-          <span class="option-desc">在页面右上角显示当前实时帧率与模式</span>
-        </div>
-        <label class="mini-switch">
-          <input type="checkbox" id="opt-show-hud">
           <span class="mini-slider"></span>
         </label>
       </div>

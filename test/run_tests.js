@@ -98,7 +98,6 @@ const requiredSelectors = [
   '.mat-ripple-element',
   '.mdc-button__ripple',
   'ms-gradient-spinner',
-  '#aistudio-turbo-hud',
   '.prompt-box-container',
   'ms-prompt-box',
   '.dragging-overlay'

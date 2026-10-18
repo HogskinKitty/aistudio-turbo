@@ -12,8 +12,7 @@ const DEFAULT_CONFIG = {
   noRipple: true,
   flatShadow: true,
   reduceLayers: true,
-  roundedPrompt: true,
-  showHud: false
+  roundedPrompt: true
 };
 
 const storageArea = (typeof chrome !== 'undefined' && chrome.storage && (chrome.storage.sync || chrome.storage.local)) || null;
@@ -22,8 +21,6 @@ let currentConfig = Object.assign({}, DEFAULT_CONFIG);
 
 // DOM 元素引用
 const masterToggle = document.getElementById('master-toggle');
-const statusIndicator = document.getElementById('status-indicator');
-const statusText = document.getElementById('status-text');
 const customOptions = document.getElementById('custom-options');
 
 const modeButtons = {
@@ -39,8 +36,7 @@ const optionInputs = {
   fastTransition: document.getElementById('opt-fast-transition'),
   noRipple: document.getElementById('opt-no-ripple'),
   reduceLayers: document.getElementById('opt-reduce-layers'),
-  roundedPrompt: document.getElementById('opt-rounded-prompt'),
-  showHud: document.getElementById('opt-show-hud')
+  roundedPrompt: document.getElementById('opt-rounded-prompt')
 };
 
 const btnReset = document.getElementById('btn-reset');
@@ -71,21 +67,6 @@ function updateUI() {
   const isEnabled = Boolean(currentConfig.enabled);
   masterToggle.checked = isEnabled;
 
-  // 状态横幅更新
-  if (isEnabled) {
-    statusIndicator.className = 'status-indicator active';
-    if (currentConfig.mode === 'ultra') {
-      statusText.textContent = 'Ultra 极致省电模式生效中';
-    } else if (currentConfig.mode === 'turbo') {
-      statusText.textContent = 'Turbo 极速减负模式生效中';
-    } else {
-      statusText.textContent = '自定义组合优化生效中';
-    }
-  } else {
-    statusIndicator.className = 'status-indicator';
-    statusText.textContent = '优化已停用 (原生渲染状态)';
-  }
-
   // 模式按钮激活状态
   Object.keys(modeButtons).forEach((modeKey) => {
     const btn = modeButtons[modeKey];
@@ -106,15 +87,13 @@ function updateUI() {
   Object.keys(optionInputs).forEach((optKey) => {
     const input = optionInputs[optKey];
     if (input) {
-      if (optKey === 'showHud') {
-        input.checked = Boolean(currentConfig.showHud);
-      } else if (isCustom) {
+      if (isCustom) {
         input.checked = Boolean(currentConfig[optKey]);
       } else {
         // 在 Turbo / Ultra 模式下，底层选项默认均为生效
         input.checked = true;
       }
-      input.disabled = !isEnabled || (optKey !== 'showHud' && !isCustom);
+      input.disabled = !isEnabled || !isCustom;
     }
   });
 }

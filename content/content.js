@@ -1,6 +1,6 @@
 /**
  * AI Studio Turbo - Content Script
- * 负责与扩展存储同步、动态向 DOM 根节点施加优化类名，并管理性能监控 HUD
+ * 负责与扩展存储同步、动态向 DOM 根节点施加优化类名
  */
 
 (function () {
@@ -16,16 +16,10 @@
     noRipple: true,
     flatShadow: true,
     reduceLayers: true,
-    roundedPrompt: true,
-    showHud: false
+    roundedPrompt: true
   };
 
   let activeConfig = Object.assign({}, DEFAULT_CONFIG);
-  let hudElement = null;
-  let fpsTimer = null;
-  let frameCount = 0;
-  let lastTime = performance.now();
-  let currentFps = 60;
 
   // 1. 从存储中读取配置并应用
   function loadAndApplyConfig() {
@@ -64,7 +58,6 @@
         'turbo-reduce-layers',
         'turbo-rounded-prompt'
       );
-      destroyHud();
       return;
     }
 
@@ -104,13 +97,6 @@
       root.classList.toggle('turbo-flat-shadow', Boolean(config.flatShadow));
       root.classList.toggle('turbo-reduce-layers', Boolean(config.reduceLayers));
       root.classList.toggle('turbo-rounded-prompt', Boolean(config.roundedPrompt !== false));
-    }
-
-    // 监控 HUD 控制
-    if (config.showHud) {
-      setupHud();
-    } else {
-      destroyHud();
     }
   }
 
@@ -155,93 +141,14 @@
     }
   }
 
-  // 6. 性能监测 HUD 逻辑
-  function setupHud() {
-    if (!hudElement) {
-      hudElement = document.createElement('div');
-      hudElement.id = 'aistudio-turbo-hud';
-      hudElement.innerHTML = `
-        <div class="hud-header">
-          <span>⚡ AI Studio Turbo</span>
-        </div>
-        <div class="hud-row">
-          <span>实时 FPS:</span>
-          <span class="hud-val fps-high" id="hud-fps-val">--</span>
-        </div>
-        <div class="hud-row">
-          <span>运行模式:</span>
-          <span class="hud-val" id="hud-mode-val">${activeConfig.mode.toUpperCase()}</span>
-        </div>
-        <div class="hud-row">
-          <span>状态:</span>
-          <span class="hud-val" style="color:#81c995">已优化</span>
-        </div>
-      `;
-      (document.body || document.documentElement).appendChild(hudElement);
-    }
-
-    if (!fpsTimer) {
-      startFpsMeter();
-    }
-  }
-
-  function destroyHud() {
-    if (fpsTimer) {
-      cancelAnimationFrame(fpsTimer);
-      fpsTimer = null;
-    }
-    if (hudElement) {
-      hudElement.remove();
-      hudElement = null;
-    }
-  }
-
-  function startFpsMeter() {
-    function measure(now) {
-      frameCount++;
-      const delta = now - lastTime;
-      if (delta >= 1000) {
-        currentFps = Math.round((frameCount * 1000) / delta);
-        frameCount = 0;
-        lastTime = now;
-        updateHudDisplay();
-      }
-      if (activeConfig.showHud && activeConfig.enabled) {
-        fpsTimer = requestAnimationFrame(measure);
-      } else {
-        fpsTimer = null;
-      }
-    }
-    fpsTimer = requestAnimationFrame(measure);
-  }
-
-  function updateHudDisplay() {
-    if (!hudElement) return;
-    const fpsVal = hudElement.querySelector('#hud-fps-val');
-    const modeVal = hudElement.querySelector('#hud-mode-val');
-    if (fpsVal) {
-      fpsVal.textContent = currentFps;
-      fpsVal.className = 'hud-val ' + (currentFps >= 50 ? 'fps-high' : currentFps >= 30 ? 'fps-mid' : 'fps-low');
-    }
-    if (modeVal) {
-      modeVal.textContent = activeConfig.mode.toUpperCase();
-    }
-  }
-
   // 立即执行配置初始化与脚本注入
   loadAndApplyConfig();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       injectPageScript();
-      if (activeConfig.showHud && activeConfig.enabled) {
-        setupHud();
-      }
     });
   } else {
     injectPageScript();
-    if (activeConfig.showHud && activeConfig.enabled) {
-      setupHud();
-    }
   }
 })();

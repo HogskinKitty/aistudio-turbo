@@ -126,35 +126,6 @@ input:checked + .slider:before {
   transform: translateX(20px);
 }
 
-/* 状态条 */
-.status-banner {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 12px;
-}
-
-.status-indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--text-muted);
-  transition: background-color 0.2s ease;
-}
-
-.status-indicator.active {
-  background-color: var(--success-color);
-  box-shadow: 0 0 8px rgba(52, 168, 83, 0.5);
-}
-
-.status-text {
-  color: var(--text-secondary);
-}
-
 /* 分区通用 */
 .section {
   display: flex;
@@ -204,7 +175,17 @@ input:checked + .slider:before {
 }
 
 .mode-icon {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: var(--text-secondary);
+  transition: color 0.2s ease;
+}
+
+.mode-btn.active .mode-icon {
+  color: var(--accent-color);
 }
 
 .mode-name {
@@ -229,7 +210,7 @@ input:checked + .slider:before {
   gap: 10px;
 }
 
-.option-item, .tool-item {
+.option-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
