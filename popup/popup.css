@@ -118,7 +118,6 @@ html, body {
   line-height: 1.4;
   user-select: none;
   overflow: hidden;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .popup-container {

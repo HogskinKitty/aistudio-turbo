@@ -114,6 +114,9 @@ assert(cssContent.includes('animation: none !important'), '包含 animation: non
 assert(cssContent.includes('transition-duration: 0.01ms !important'), '包含 transition-duration 极速过渡声明');
 assert(cssContent.includes('will-change: auto !important'), '包含 will-change: auto !important 显存防暴增声明');
 assert(cssContent.includes('border-radius: 24px !important'), '包含 border-radius: 24px !important 提示词输入框圆角美化声明');
+assert(cssContent.includes('.mat-mdc-dialog-container') && cssContent.includes('overflow: hidden !important'), '包含弹窗容器圆角与内部裁切保障声明 (overflow: hidden !important)');
+assert(!cssContent.match(/\.turbo-fast-transition[^{]*\.mat-mdc-dialog-container/), '弹窗容器排除于 0.01ms 瞬时动画之外，保留原生 Material 平滑过渡');
+assert(cssContent.includes('box-shadow: none !important') && cssContent.includes('.cdk-overlay-pane'), '移除 cdk-overlay-pane 直角外框阴影与边框，杜绝方框投影先行闪烁');
 
 // ------------------------------------------------------------------
 // 测试组 3: JavaScript 源码静态分析与语法有效性

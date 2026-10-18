@@ -132,12 +132,11 @@ html.aistudio-turbo-enabled.turbo-fast-scroll ms-chat-turn .chat-turn-container.
 
 /* ==========================================================================
    5. 交互过度动画降级 (Instant UI Transitions)
-   - 菜单、弹窗、侧边栏点击秒开，响应零延迟
+   - 菜单、抽屉、侧边栏极速响应，保留弹窗原生平滑缩放与圆角过渡
    ========================================================================== */
 
 html.aistudio-turbo-enabled.turbo-fast-transition .mat-mdc-menu-panel,
 html.aistudio-turbo-enabled.turbo-fast-transition .mat-mdc-select-panel,
-html.aistudio-turbo-enabled.turbo-fast-transition .mat-mdc-dialog-container,
 html.aistudio-turbo-enabled.turbo-fast-transition .mat-drawer,
 html.aistudio-turbo-enabled.turbo-fast-transition .ms-account-switcher-panel,
 html.aistudio-turbo-enabled.turbo-fast-transition .nav-flyout-panel,
@@ -149,6 +148,12 @@ html.aistudio-turbo-enabled.turbo-fast-transition .mat-mdc-tab-body-content {
   -webkit-transition-duration: 0.01ms !important;
   animation-duration: 0.01ms !important;
   -webkit-animation-duration: 0.01ms !important;
+}
+
+/* 弹窗容器圆角与内部裁切保障：确保原生 Material 弹窗平滑渲染，杜绝直角方框泄漏与溢出 */
+html.aistudio-turbo-enabled .mat-mdc-dialog-container,
+html.aistudio-turbo-enabled .mat-mdc-dialog-surface {
+  overflow: hidden !important;
 }
 
 /* ==========================================================================
@@ -175,7 +180,13 @@ html.aistudio-turbo-enabled.turbo-flat-shadow {
   --color-v3-shadow-md: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
 }
 
-html.aistudio-turbo-enabled.turbo-flat-shadow .cdk-overlay-pane,
+/* 移除 cdk-overlay-pane 直角外框的阴影与边框，杜绝方角投影先行闪烁 */
+html.aistudio-turbo-enabled.turbo-flat-shadow .cdk-overlay-pane {
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
 html.aistudio-turbo-enabled.turbo-flat-shadow .mat-mdc-dialog-container,
 html.aistudio-turbo-enabled.turbo-flat-shadow .mat-mdc-menu-panel,
 html.aistudio-turbo-enabled.turbo-flat-shadow .ms-account-switcher-panel {
@@ -201,7 +212,11 @@ html.aistudio-turbo-enabled.turbo-ultra * {
   box-shadow: none !important;
 }
 
-html.aistudio-turbo-enabled.turbo-ultra .cdk-overlay-pane,
+html.aistudio-turbo-enabled.turbo-ultra .cdk-overlay-pane {
+  border: none !important;
+  box-shadow: none !important;
+}
+
 html.aistudio-turbo-enabled.turbo-ultra .mat-mdc-dialog-container,
 html.aistudio-turbo-enabled.turbo-ultra .mat-mdc-menu-panel {
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
