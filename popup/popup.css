@@ -24,7 +24,7 @@
   padding: 0;
 }
 
-body {
+html, body {
   width: 350px;
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -32,13 +32,14 @@ body {
   font-size: 13px;
   line-height: 1.4;
   user-select: none;
+  overflow: hidden;
 }
 
 .popup-container {
-  padding: 16px;
+  padding: 13px 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
 }
 
 /* 头部 */
@@ -55,9 +56,9 @@ body {
 }
 
 .brand-logo {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
 }
 
 .brand-text {
@@ -66,14 +67,14 @@ body {
 }
 
 .brand-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: #fff;
   letter-spacing: -0.2px;
 }
 
 .brand-subtitle {
-  font-size: 11px;
+  font-size: 10.5px;
   color: var(--text-secondary);
 }
 
@@ -81,8 +82,8 @@ body {
 .switch {
   position: relative;
   display: inline-block;
-  width: 44px;
-  height: 24px;
+  width: 42px;
+  height: 22px;
 }
 
 .switch input {
@@ -101,14 +102,14 @@ body {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 24px;
+  border-radius: 22px;
 }
 
 .slider:before {
   position: absolute;
   content: "";
-  height: 18px;
-  width: 18px;
+  height: 16px;
+  width: 16px;
   left: 2px;
   bottom: 2px;
   background-color: #fff;
@@ -130,11 +131,11 @@ input:checked + .slider:before {
 .section {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .section-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -145,22 +146,23 @@ input:checked + .slider:before {
 .mode-selector {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 7px;
 }
 
 .mode-btn {
   position: relative;
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 12px 6px 10px;
+  border-radius: 11px;
+  padding: 7px 4px 6px;
   color: var(--text-primary);
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  gap: 4px;
+  gap: 3px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: visible;
 }
@@ -176,34 +178,22 @@ input:checked + .slider:before {
   box-shadow: 0 0 0 1px var(--accent-color);
 }
 
-.mode-badge {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  font-size: 9px;
-  font-weight: 600;
-  line-height: 1;
-  padding: 2px 4px;
-  border-radius: 5px;
-  background: rgba(26, 115, 232, 0.2);
-  color: #8ab4f8;
-  letter-spacing: 0.2px;
-  pointer-events: none;
-}
-
-.mode-btn.active .mode-badge {
-  background: var(--accent-color);
-  color: #ffffff;
+.mode-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .mode-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 13px;
+  height: 13px;
   color: var(--text-secondary);
   transition: color 0.2s ease;
+  flex-shrink: 0;
 }
 
 .mode-btn.active .mode-icon {
@@ -212,12 +202,12 @@ input:checked + .slider:before {
 
 .mode-name {
   font-weight: 600;
-  font-size: 12px;
+  font-size: 11.5px;
   white-space: nowrap;
 }
 
 .mode-desc {
-  font-size: 10px;
+  font-size: 9.5px;
   color: var(--text-secondary);
   line-height: 1.2;
   white-space: nowrap;
@@ -226,49 +216,72 @@ input:checked + .slider:before {
   width: 100%;
 }
 
+.mode-badge {
+  position: absolute;
+  top: -5px;
+  right: 5px;
+  font-size: 8px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 1.5px 4px;
+  border-radius: 4px;
+  background: var(--accent-color);
+  color: #ffffff;
+  letter-spacing: 0.2px;
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 /* 自定义列表 */
 .custom-section {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 14px;
-  padding: 12px;
+  border-radius: 12px;
+  padding: 8px 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
+}
+
+.custom-section .section-label {
+  font-size: 10.5px;
+  margin-bottom: 2px;
 }
 
 .option-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 3px 4px;
-  border-radius: 8px;
+  gap: 8px;
+  padding: 2px 2px;
+  border-radius: 6px;
 }
 
 .option-info {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 
 .option-title {
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 500;
   color: var(--text-primary);
+  line-height: 1.2;
 }
 
 .option-desc {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-secondary);
+  line-height: 1.2;
 }
 
 /* Mini 开关 */
 .mini-switch {
   position: relative;
   display: inline-block;
-  width: 32px;
-  height: 18px;
+  width: 28px;
+  height: 16px;
   flex-shrink: 0;
 }
 
@@ -288,14 +301,14 @@ input:checked + .slider:before {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   transition: 0.2s ease;
-  border-radius: 18px;
+  border-radius: 16px;
 }
 
 .mini-slider:before {
   position: absolute;
   content: "";
-  height: 12px;
-  width: 12px;
+  height: 10px;
+  width: 10px;
   left: 2px;
   bottom: 2px;
   background-color: #fff;
@@ -309,7 +322,7 @@ input:checked + .mini-slider {
 }
 
 input:checked + .mini-slider:before {
-  transform: translateX(14px);
+  transform: translateX(12px);
 }
 
 /* 底部区域 */
