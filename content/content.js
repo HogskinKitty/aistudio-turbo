@@ -141,14 +141,56 @@
     }
   }
 
+  // 6. 检测并同步 AI Studio 页面实际主题明暗状态
+  function detectAndSyncTheme() {
+    try {
+      let isLight = false;
+      const root = document.documentElement;
+      const body = document.body;
+      if (root.classList.contains('light-theme') || (body && body.classList.contains('light-theme'))) {
+        isLight = true;
+      } else if (root.dataset.theme === 'light' || (body && body.dataset.theme === 'light')) {
+        isLight = true;
+      } else if (body) {
+        const bg = window.getComputedStyle(body).backgroundColor;
+        const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+        if (match) {
+          const r = parseInt(match[1], 10);
+          const g = parseInt(match[2], 10);
+          const b = parseInt(match[3], 10);
+          const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+          if (luminance > 128) {
+            isLight = true;
+          }
+        }
+      }
+      const detectedTheme = isLight ? 'light' : 'dark';
+      const storageArea = (chrome.storage && chrome.storage.local) || (chrome.storage && chrome.storage.sync);
+      if (storageArea) {
+        storageArea.set({ aistudio_page_theme: detectedTheme });
+      }
+    } catch (e) {
+      // 容错处理
+    }
+  }
+
   // 立即执行配置初始化与脚本注入
   loadAndApplyConfig();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       injectPageScript();
+      detectAndSyncTheme();
     });
   } else {
     injectPageScript();
+    detectAndSyncTheme();
+  }
+
+  if (typeof MutationObserver !== 'undefined' && document.documentElement) {
+    const themeObserver = new MutationObserver(() => {
+      detectAndSyncTheme();
+    });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-theme', 'style'] });
   }
 })();

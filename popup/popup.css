@@ -3,6 +3,7 @@
  */
 
 :root {
+  /* 默认暗色主题 (Dark Theme) */
   --bg-primary: #18191c;
   --bg-secondary: #222328;
   --bg-card: #2c2d33;
@@ -16,6 +17,74 @@
   --success-color: #34a853;
   --border-color: rgba(255, 255, 255, 0.08);
   --border-active: rgba(26, 115, 232, 0.6);
+  --title-color: #ffffff;
+  --mode-btn-active-bg: rgba(26, 115, 232, 0.15);
+  --mode-btn-hover-border: rgba(255, 255, 255, 0.15);
+  --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+/* 系统级明亮主题自动适配 */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f6f8fa;
+    --bg-card: #e9ecef;
+    --bg-card-hover: #dee2e6;
+    --text-primary: #1f1f1f;
+    --text-secondary: #5f6368;
+    --text-muted: #80868b;
+    --accent-color: #1a73e8;
+    --accent-hover: #1557b0;
+    --accent-glow: rgba(26, 115, 232, 0.15);
+    --success-color: #1e8e3e;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --border-active: rgba(26, 115, 232, 0.8);
+    --title-color: #1f1f1f;
+    --mode-btn-active-bg: rgba(26, 115, 232, 0.1);
+    --mode-btn-hover-border: rgba(0, 0, 0, 0.15);
+    --shadow-color: rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* 页面主动同步的主题适配 */
+html[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f6f8fa;
+  --bg-card: #e9ecef;
+  --bg-card-hover: #dee2e6;
+  --text-primary: #1f1f1f;
+  --text-secondary: #5f6368;
+  --text-muted: #80868b;
+  --accent-color: #1a73e8;
+  --accent-hover: #1557b0;
+  --accent-glow: rgba(26, 115, 232, 0.15);
+  --success-color: #1e8e3e;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-active: rgba(26, 115, 232, 0.8);
+  --title-color: #1f1f1f;
+  --mode-btn-active-bg: rgba(26, 115, 232, 0.1);
+  --mode-btn-hover-border: rgba(0, 0, 0, 0.15);
+  --shadow-color: rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme="dark"] {
+  --bg-primary: #18191c;
+  --bg-secondary: #222328;
+  --bg-card: #2c2d33;
+  --bg-card-hover: #35363e;
+  --text-primary: #f1f3f4;
+  --text-secondary: #9aa0a6;
+  --text-muted: #5f6368;
+  --accent-color: #1a73e8;
+  --accent-hover: #1b66ca;
+  --accent-glow: rgba(26, 115, 232, 0.25);
+  --success-color: #34a853;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(26, 115, 232, 0.6);
+  --title-color: #ffffff;
+  --mode-btn-active-bg: rgba(26, 115, 232, 0.15);
+  --mode-btn-hover-border: rgba(255, 255, 255, 0.15);
+  --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -33,6 +102,7 @@ html, body {
   line-height: 1.4;
   user-select: none;
   overflow: hidden;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .popup-container {
@@ -69,7 +139,7 @@ html, body {
 .brand-title {
   font-size: 14px;
   font-weight: 700;
-  color: #fff;
+  color: var(--title-color);
   letter-spacing: -0.2px;
 }
 
@@ -115,7 +185,7 @@ html, body {
   background-color: #fff;
   transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 3px var(--shadow-color);
 }
 
 input:checked + .slider {
@@ -169,11 +239,11 @@ input:checked + .slider:before {
 
 .mode-btn:hover {
   background-color: var(--bg-card);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--mode-btn-hover-border);
 }
 
 .mode-btn.active {
-  background-color: rgba(26, 115, 232, 0.15);
+  background-color: var(--mode-btn-active-bg);
   border-color: var(--border-active);
   box-shadow: 0 0 0 1px var(--accent-color);
 }

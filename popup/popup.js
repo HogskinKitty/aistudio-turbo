@@ -150,8 +150,27 @@ function initEvents() {
   });
 }
 
+// 自动明暗主题同步
+function initThemeSync() {
+  if (!storageArea) return;
+  storageArea.get(['aistudio_page_theme'], (result) => {
+    if (result && result.aistudio_page_theme) {
+      document.documentElement.setAttribute('data-theme', result.aistudio_page_theme);
+    }
+  });
+
+  if (chrome.storage && chrome.storage.onChanged) {
+    chrome.storage.onChanged.addListener((changes) => {
+      if (changes.aistudio_page_theme && changes.aistudio_page_theme.newValue) {
+        document.documentElement.setAttribute('data-theme', changes.aistudio_page_theme.newValue);
+      }
+    });
+  }
+}
+
 // 启动执行
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeSync();
   getStorage((conf) => {
     currentConfig = conf;
     initEvents();
