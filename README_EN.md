@@ -18,7 +18,7 @@
   <a href="https://developer.chrome.com/docs/extensions/mv3/intro/"><img src="https://img.shields.io/badge/Manifest-V3-4285F4.svg?style=flat-square" alt="Manifest V3"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT"></a>
   <a href="https://aistudio.google.com/"><img src="https://img.shields.io/badge/Target-Google%20AI%20Studio-34A853.svg?style=flat-square" alt="Target Platform"></a>
-  <a href="test/run_tests.js"><img src="https://img.shields.io/badge/Tests-71%2F71%20Passing-brightgreen.svg?style=flat-square" alt="Automated Tests"></a>
+  <a href="test/run_tests.js"><img src="https://img.shields.io/badge/Tests-73%2F73%20Passing-brightgreen.svg?style=flat-square" alt="Automated Tests"></a>
 </p>
 
 </div>
@@ -102,6 +102,9 @@ The extension provides a clean, bilingual popup control panel allowing instant, 
 - Automatically detects the browser's UI language (`navigator.language` / `chrome.i18n.getUILanguage`) to render in Chinese or English.
 - Features a header toggle button (`EN` / `中`) for one-click manual language switching with persistent storage.
 
+### 6. Visual Brand Identity & Iconography (`icons/`)
+- Creatively rotates the official Google AI Studio capsule geometry by 90° counter-clockwise, turning the diagonal gap into a dynamic Turbo lightning bolt that seamlessly conveys speed while preserving 100% of the official Google color heritage.
+
 ---
 
 ## Installation & Usage
@@ -133,11 +136,11 @@ aistudio-turbo/
 ├── README.md                  # Project Documentation (Simplified Chinese)
 ├── README_EN.md               # Project Documentation (English)
 ├── icons/                     # Vector and raster application icons
-│   ├── Google_AI_Studio_icon.svg
-│   ├── icon16.png
-│   ├── icon32.png
-│   ├── icon48.png
-│   └── icon128.png
+│   ├── Google_AI_Studio_icon.svg       # Official vertical lightning vector master
+│   ├── icon16.png             # 16x16 browser toolbar and favicon icon
+│   ├── icon32.png             # 32x32 Retina toolbar icon
+│   ├── icon48.png             # 48x48 extensions management page icon
+│   └── icon128.png            # 128x128 high-res web store and documentation icon
 ├── content/                   # Injected client-side logic
 │   ├── turbo.css              # Performance CSS optimization stylesheet
 │   ├── content.js             # Isolated world runtime class coordinator

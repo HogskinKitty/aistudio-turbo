@@ -18,7 +18,7 @@
   <a href="https://developer.chrome.com/docs/extensions/mv3/intro/"><img src="https://img.shields.io/badge/Manifest-V3-4285F4.svg?style=flat-square" alt="Manifest V3"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT"></a>
   <a href="https://aistudio.google.com/"><img src="https://img.shields.io/badge/Target-Google%20AI%20Studio-34A853.svg?style=flat-square" alt="Target Platform"></a>
-  <a href="test/run_tests.js"><img src="https://img.shields.io/badge/Tests-71%2F71%20Passing-brightgreen.svg?style=flat-square" alt="Automated Tests"></a>
+  <a href="test/run_tests.js"><img src="https://img.shields.io/badge/Tests-73%2F73%20Passing-brightgreen.svg?style=flat-square" alt="Automated Tests"></a>
 </p>
 
 </div>
@@ -98,6 +98,13 @@ Google AI Studio 采用了高度现代化的 Web UI 体系（Angular Material 3�
 - 后台服务（Service Worker）负责监听扩展初始化与状态变化。
 - 遵循极简免打扰规范：默认开启状态下保持图标纯净（不显示 ON 徽标），仅在用户主动关闭优化时展示低调的灰色 "off" 状态提示。
 
+### 5. 双语国际化自动适配与即时切换 (`popup/popup.js`)
+- 启动时自动检测系统/浏览器语言（`navigator.language` / `chrome.i18n.getUILanguage`），无缝适配中文与英文界面。
+- 面板顶部提供轻量级一键切换按钮（`EN` / `中`），偏好设置实时持久化于本地存储。
+
+### 6. 视觉设计与品牌图标规范 (`icons/`)
+- 巧妙将 Google AI Studio 官方圆角几何图案以逆时针 90° 竖放，斜切微隙天然呈现出凌厉的 Turbo 极速闪电走向，完美保留官方 4 色原生质感的同时注入高能速度感。
+
 ---
 
 ## 安装与使用
@@ -129,11 +136,11 @@ aistudio-turbo/
 ├── README.md                  # 项目中文说明文档
 ├── README_EN.md               # English Documentation
 ├── icons/                     # 多尺寸高清矢量与位图资产
-│   ├── Google_AI_Studio_icon.svg
-│   ├── icon16.png
-│   ├── icon32.png
-│   ├── icon48.png
-│   └── icon128.png
+│   ├── Google_AI_Studio_icon.svg       # 官方竖放极速闪电矢量原稿
+│   ├── icon16.png             # 16x16 浏览器工具栏与 Favicon 图标
+│   ├── icon32.png             # 32x32 Retina 视网膜工具栏图标
+│   ├── icon48.png             # 48x48 扩展程序管理界面图标
+│   └── icon128.png            # 128x128 高清应用商店与文档展示图标
 ├── content/                   # 注入式核心模块
 │   ├── turbo.css              # GPU 减负与渲染降载 CSS 规则集
 │   ├── content.js             # 隔离世界类名管理与存储同步逻辑
@@ -141,7 +148,7 @@ aistudio-turbo/
 ├── popup/                     # 控制面板交互界面
 │   ├── popup.html             # 面板结构与自适应主题容器
 │   ├── popup.css              # 面板样式与暗色/亮色自适应主题
-│   └── popup.js               # 模式选择与配置双向绑定控制器
+│   └── popup.js               # 模式选择与双语配置双向绑定控制器
 ├── background/                # 扩展后台服务
 │   └── background.js          # 生命周期状态与徽章提示管理
 └── test/                      # 自动化测试与质量保障
