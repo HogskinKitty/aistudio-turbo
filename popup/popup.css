@@ -57,7 +57,7 @@ body {
 .brand-logo {
   width: 28px;
   height: 28px;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 
 .brand-text {
@@ -149,10 +149,11 @@ input:checked + .slider:before {
 }
 
 .mode-btn {
+  position: relative;
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 10px 6px;
+  border-radius: 14px;
+  padding: 12px 6px 10px;
   color: var(--text-primary);
   cursor: pointer;
   display: flex;
@@ -160,7 +161,8 @@ input:checked + .slider:before {
   align-items: center;
   text-align: center;
   gap: 4px;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
 }
 
 .mode-btn:hover {
@@ -172,6 +174,26 @@ input:checked + .slider:before {
   background-color: rgba(26, 115, 232, 0.15);
   border-color: var(--border-active);
   box-shadow: 0 0 0 1px var(--accent-color);
+}
+
+.mode-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: rgba(26, 115, 232, 0.2);
+  color: #8ab4f8;
+  letter-spacing: 0.2px;
+  pointer-events: none;
+}
+
+.mode-btn.active .mode-badge {
+  background: var(--accent-color);
+  color: #ffffff;
 }
 
 .mode-icon {
@@ -191,23 +213,28 @@ input:checked + .slider:before {
 .mode-name {
   font-weight: 600;
   font-size: 12px;
+  white-space: nowrap;
 }
 
 .mode-desc {
   font-size: 10px;
   color: var(--text-secondary);
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 /* 自定义列表 */
 .custom-section {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border-radius: 14px;
   padding: 12px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .option-item {
@@ -215,6 +242,8 @@ input:checked + .slider:before {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  padding: 3px 4px;
+  border-radius: 8px;
 }
 
 .option-info {
@@ -298,8 +327,8 @@ input:checked + .mini-slider:before {
   color: var(--accent-color);
   font-size: 11px;
   cursor: pointer;
-  padding: 2px 4px;
-  border-radius: 4px;
+  padding: 4px 8px;
+  border-radius: 8px;
 }
 
 .reset-btn:hover {
