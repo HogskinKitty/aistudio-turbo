@@ -1,54 +1,139 @@
-# ⚡ AI Studio Turbo - Google AI Studio GPU 渲染 & 动画优化插件
+# AI Studio Turbo
 
-一款专为 [Google AI Studio (https://aistudio.google.com/)](https://aistudio.google.com/) 深度定制的性能加速 Chrome 插件（Manifest V3）。针对老旧显卡、集成核显设备在大量高斯模糊与过渡动画下容易出现掉帧、卡顿、发热与打字延迟的问题进行精准减负，在**完全保留原有所有操作功能与原生界面布局**的前提下，让 AI Studio 达到极致丝滑的操作体验。
+> Google AI Studio GPU 渲染加速与交互体验优化扩展程序（Manifest V3）
 
----
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-4285F4.svg?style=flat-square)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Target Platform](https://img.shields.io/badge/Target-Google%20AI%20Studio-34A853.svg?style=flat-square)](https://aistudio.google.com/)
+[![Automated Tests](https://img.shields.io/badge/Tests-60%2F60%20Passing-brightgreen.svg?style=flat-square)](test/run_tests.js)
 
-## 🌟 核心特性与解决痛点
-
-| 痛点场景 | 原生机制（老设备卡顿根源） | AI Studio Turbo 优化策略 |
-| :--- | :--- | :--- |
-| **浮层与弹窗掉帧** | 侧边栏、账户面板、菜单采用 `backdrop-filter: blur(200px/80px)` 全屏多通道模糊采样 | 智能拦截高斯模糊，以 Google Material 3 原生主题变量（`--color-v3-surface` 等）自适应平替，保持对比度无损，显卡开销暴降 80% |
-| **待机发热与掉电** | 常驻运行 `_shimmer`, `_pulse`, `_rotate-promo-card-border`, `_empty-art-drift` 等循环动画 | 冻结纯装饰性无限动画，使 GPU 显卡在闲置时能够立即进入低频待机与省电状态 |
-| **长回复流式打字卡顿** | 文本生成时 `ms-autoscroll-container` 触发平滑滚动（`scroll-behavior: smooth`）与持续 0.6s 重排 | 自动转换为瞬时精确滚动（`behavior: auto`），打字输出如行云流水，杜绝视觉撕裂与输入延迟 |
-| **界面菜单操作延迟** | 下拉菜单、抽屉与侧边栏带有多层贝塞尔过渡动画（0.2s~0.3s） | 将交互过渡时间压缩至极速（0.01ms），菜单秒开秒合，同时完整保留弹窗原生平滑缩放与圆润过渡 |
-| **显存占用过高** | 大量按键与卡片强制添加 `translate3d(0,0,0)` 与 `will-change`，导致图层暴增 | 精简冗余 GPU 合成图层，彻底解决低显存设备引起的驱动重启或崩溃 |
-| **提示词输入框视觉** | 底部提示词输入框默认采用 12px 偏生硬的小圆角设计 | 升级为 24px 大圆角设计，外边框视觉更加圆润柔和，并完美同步拖拽上传高亮层与禁用遮罩 |
+AI Studio Turbo 是一款专为 [Google AI Studio](https://aistudio.google.com/) 深度定制的性能加速与交互体验优化浏览器扩展。针对集成核显及老旧显卡设备在复杂 Web 应用中因频繁高斯模糊、循环动画、过度复合图层以及流式文本自动平滑滚动所导致的掉帧、打字延迟和机身发热问题，在**完全保留原有全部功能与原生界面布局**的前提下，提供深度的 GPU 减负与零延迟交互体验。
 
 ---
 
-## 🚀 安装与使用指南
+## 目录
 
-因为您的 Chrome 浏览器已经处于打开状态，您可以按照以下简单几步直接将扩展加载到浏览器中：
+- [背景与问题分析](#背景与问题分析)
+- [核心优化特性](#核心优化特性)
+- [运行模式介绍](#运行模式介绍)
+- [架构设计与技术实现](#架构设计与技术实现)
+- [安装与使用](#安装与使用)
+- [工程结构](#工程结构)
+- [测试与验证](#测试与验证)
+- [隐私与安全性](#隐私与安全性)
+- [开源许可证](#开源许可证)
 
-1. 打开 Chrome 浏览器，在地址栏输入并回车：
+---
+
+## 背景与问题分析
+
+Google AI Studio 采用了高度现代化的 Web UI 体系（Angular Material 3），在提供前沿视觉效果的同时，也对客户端硬件渲染管线提出了较高要求：
+
+1. **多通道高斯模糊重绘开销**：侧边栏、菜单与弹窗广泛采用 `backdrop-filter: blur(80px ~ 200px)`，在页面发生滚动或流式输出时引发全屏重绘，显卡负载居高不下。
+2. **装饰性循环微动能耗**：多处卡片与加载元素常驻运行无限 CSS 关键帧动画（如 `_shimmer`、`_pulse`、`_rotate-promo-card-border`），阻碍 GPU 进入低功耗待机状态。
+3. **流式输出平滑滚动卡顿**：大模型流式输出过程中，容器持续触发带有贝塞尔过渡的平滑滚动（`scroll-behavior: smooth`）及持续 0.6 秒防抖重排计算，造成视觉撕裂与输入延迟。
+4. **复合图层过载与显存溢出**：大量交互按钮与悬浮元素被强制添加 3D 变换（`translate3d`）及 `will-change`，导致 GPU 合成层数量剧增，在小显存核显设备上易造成渲染上下文崩溃。
+
+---
+
+## 核心优化特性
+
+| 痛点场景 | 原生机制（卡顿根因） | AI Studio Turbo 优化策略 | 优化收益 |
+| :--- | :--- | :--- | :--- |
+| **浮层与遮罩重绘** | 全局大量使用 `backdrop-filter` 模糊采样 | 智能拦截高斯模糊，采用 Material 3 原生自适应表面色变量（`--color-v3-surface` 等）进行高保真平替 | 显卡着色开销降低约 80%，彻底消除展开掉帧 |
+| **闲置功耗与发热** | 常驻 `_shimmer`、`_pulse`、`_rotate-border` 等无限动画 | 精准识别并冻结纯装饰性循环动画，保持交互状态动画完备 | 闲置状态 GPU 即刻降频休眠，大幅降低能耗 |
+| **流式打字与滚屏** | 文本生成频繁调用平滑滚动（`scroll-behavior: smooth`） | 主世界注入原型代理，将平滑滚动清洗为瞬时精确滚动（`behavior: auto`） | 打字渲染流畅无撕裂，消除逐字跳动卡顿 |
+| **菜单与抽屉过渡** | 展开收起普遍附带 200ms ~ 300ms 贝塞尔过渡 | 将交互过渡时间压缩至毫秒级（0.01ms），同时完整保留弹窗原生平滑缩放与圆润过渡 | 菜单与抽屉秒开秒关，无等待感 |
+| **合成图层与显存** | 大量 DOM 节点强行提升为独立 GPU 合成层 | 精简冗余的 `will-change` 与无效 3D 变换，抑制图层无序暴增 | 大幅缩减 VRAM 显存占用，杜绝显卡驱动崩溃 |
+| **提示词输入框视觉** | 底部提示词输入框默认采用 12px 偏生硬圆角 | 升级为 24px 大圆角设计，四周外框柔和自然，同步适配拖拽高亮层与禁用遮罩 | 视觉更加协调优雅，与整体 Material 3 风格融合 |
+
+---
+
+## 运行模式介绍
+
+扩展提供直观的控制面板，支持根据硬件配置与视觉偏好实时无缝切换：
+
+- **Turbo 极速模式（默认推荐）**：平衡视觉质感与高帧率表现。平替所有大半径高斯模糊、冻结常驻循环动画、开启流式防卡顿与极速响应、开启提示词输入框 24px 圆润大边框美化。
+- **Ultra 极致模式**：针对极端老旧硬件、虚拟机或超低功耗设备。在 Turbo 模式基础上额外剥离文本投影与多层阴影，强制将 GPU 显存与重排开销降至极限。
+- **自定义配置模式**：支持按需单独控制 7 项专项开关（消除毛玻璃模糊、冻结装饰动画、瞬时流式滚动、零延迟交互过渡、移除点击涟漪、精简渲染图层、输入框圆润边框），随心定制个人专属方案。
+
+> 所有配置切换均采用动态根类名（Root Class）与原型劫持热注入技术，修改即时生效，无需重新加载或刷新页面。
+
+---
+
+## 架构设计与技术实现
+
+### 1. 样式与硬件加速层 (`content/turbo.css`)
+- 基于 CSS 特异性分层（`html.aistudio-turbo-enabled.*`）实现零成本切换。
+- 精准作用于 Google AI Studio 独有组件（如 `ms-prompt-box`、`ms-autoscroll-container`、`.dialog-backdrop-blur-overlay`、`.cdk-overlay-pane`）。
+- 隔离 CDK 直角定位层与弹窗容器，杜绝弹出层方角投影外露伪影，保障原生 Material 3 圆角内裁切。
+
+### 2. 隔离世界运行时管理 (`content/content.js`)
+- 监听 `chrome.storage.local` 与 Popup 消息通道，根据状态在 `document.documentElement` 上动态增删标志类名。
+- 自动同步页面明暗主题（Dark / Light Theme）状态至插件配置上下文。
+
+### 3. 主世界平滑滚动精准拦截器 (`content/page-world.js`)
+- 通过 Manifest V3 `MAIN` 世界执行上下文注入，安全代理 `Element.prototype.scrollTo` 与 `Element.prototype.scrollBy`。
+- 在检测到平滑滚动指令（`behavior: "smooth"`）时，透明重写为瞬时滚动（`behavior: "auto"`），从底层 JavaScript 调用链上彻底掐灭打字回弹重排。
+
+### 4. 徽标与生命周期服务 (`background/background.js`)
+- 后台服务（Service Worker）负责监听扩展初始化与状态变化。
+- 遵循极简免打扰规范：默认开启状态下保持图标纯净（不显示 ON 徽标），仅在用户主动关闭优化时展示低调的灰色 "off" 状态提示。
+
+---
+
+## 安装与使用
+
+### 从源码加载（开发者模式）
+
+1. 克隆本项目代码库至本地环境：
+   ```bash
+   git clone https://github.com/HogskinKitty/aistudio-turbo.git
+   ```
+2. 打开 Google Chrome 或基于 Chromium 的现代浏览器，访问扩展程序管理界面：
    ```text
    chrome://extensions/
    ```
-2. 在扩展程序管理页面右上角，开启 **“开发者模式” (Developer mode)** 开关。
-3. 点击左上角的 **“加载已解压的扩展程序” (Load unpacked)** 按钮。
-4. 在弹出的文件选择器中，选择本项目的目录：
-   ```text
-   /Users/zym/workspace/opensource/github/aistudio-turbo
-   ```
-5. 点击“选择”，扩展即刻安装成功！
-6. 切换回已打开的 [https://aistudio.google.com/](https://aistudio.google.com/) 页面，点击浏览器右上角拼图图标中的 **AI Studio Turbo** 图标即可随时调节模式。
-
-> 💡 **热切换提示**：插件支持**零刷新即时生效**。在面板中切换开关或预设模式时，AI Studio 页面会实时无缝应用，无需重新加载网页！
+3. 在管理页面右上角，开启 **开发者模式 (Developer mode)** 开关。
+4. 点击左上角的 **加载已解压的扩展程序 (Load unpacked)**。
+5. 在弹出的目录选择器中，选中本项目的根目录。
+6. 打开 [Google AI Studio](https://aistudio.google.com/)，点击浏览器工具栏中的 **AI Studio Turbo** 图标即可随时调整优化策略。
 
 ---
 
-## 🎛️ 模式介绍
+## 工程结构
 
-- **Turbo 极速模式（默认推荐）**：平衡视觉质感与极致性能，平替所有大半径高斯模糊、停用常驻循环动画、开启流式防卡顿与极速响应、开启提示词输入框 24px 圆润大边框美化。
-- **Ultra 极致模式**：针对老旧核显或低功耗设备，额外消除文本与按钮投影，显存占用降至最低。
-- **Custom 自定义模式**：提供 7 个专项调节开关（包含消除毛玻璃模糊、冻结装饰动画、瞬时流式滚动、零延迟交互过渡、移除点击涟漪、精简渲染图层、输入框圆润边框），支持按需自由组合。
+```text
+aistudio-turbo/
+├── manifest.json              # 核心清单文件 (MV3 规范)
+├── package.json               # 工程与测试套件配置
+├── LICENSE                    # MIT 开源许可证
+├── README.md                  # 项目说明文档
+├── icons/                     # 多尺寸高清矢量与位图资产
+│   ├── Google_AI_Studio_icon.svg
+│   ├── icon16.png
+│   ├── icon32.png
+│   ├── icon48.png
+│   └── icon128.png
+├── content/                   # 注入式核心模块
+│   ├── turbo.css              # GPU 减负与渲染降载 CSS 规则集
+│   ├── content.js             # 隔离世界类名管理与存储同步逻辑
+│   └── page-world.js          # 主世界平滑滚动代理拦截器
+├── popup/                     # 控制面板交互界面
+│   ├── popup.html             # 面板结构与自适应主题容器
+│   ├── popup.css              # 面板样式与暗色/亮色自适应主题
+│   └── popup.js               # 模式选择与配置双向绑定控制器
+├── background/                # 扩展后台服务
+│   └── background.js          # 生命周期状态与徽章提示管理
+└── test/                      # 自动化测试与质量保障
+    └── run_tests.js           # 自动化测试执行器与仿真套件
+```
 
 ---
 
-## 🧪 自动化测试验证
+## 测试与验证
 
-本项目配备了完整的自动化测试套件，全面覆盖 Manifest V3 配置、CSS 语法平衡与选择器覆盖率、JavaScript 静态语法与运行时 DOM 状态切换仿真：
+项目内置了轻量且严格的自动化测试套件，无需额外安装第三方依赖库即可开箱即用：
 
 ```bash
 npm test
@@ -56,38 +141,25 @@ npm test
 node test/run_tests.js
 ```
 
-测试覆盖所有验证指标，保证在各种配置切换下稳定可靠、零脚本错误。
+### 测试覆盖范围
+
+- **Manifest V3 规范与资源完整性**：验证各平台图标、脚本与样式路径合法性。
+- **CSS 语法与选择器覆盖率**：语法闭合校验及关键类名覆盖验证（覆盖率 100%）。
+- **JavaScript 静态语法校验**：采用 Node.js `vm.Script` 对所有执行脚本进行预编译语法检查。
+- **DOM 动态类名仿真切换**：覆盖 Turbo、Ultra、Custom 及禁用状态下的类名挂载行为。
+- **主世界滚动参数重写仿真**：验证 `behavior: "smooth"` 向 `auto` 转换的逻辑正确性。
+- **扩展图标徽标规范仿真**：验证状态徽标的显示与隐藏逻辑。
 
 ---
 
-## 📁 目录结构
+## 隐私与安全性
 
-```text
-aistudio-turbo/
-├── manifest.json              # 核心清单文件 (MV3)
-├── package.json               # 测试与工程配置文件
-├── icons/                     # 16/32/48/128 高清图标与 SVG 原稿
-│   ├── Google_AI_Studio_icon.svg       # 官方矢量图标
-│   ├── icon16.png
-│   ├── icon32.png
-│   ├── icon48.png
-│   └── icon128.png
-├── content/                   # 注入脚本与优化规则
-│   ├── turbo.css              # 高性能 GPU 减负 CSS 核心补丁
-│   ├── content.js             # 运行时类名与配置控制器
-│   └── page-world.js          # 主世界平滑滚动精准拦截器
-├── popup/                     # 控制面板界面
-│   ├── popup.html             # 面板结构
-│   ├── popup.css              # 现代化暗色主题样式
-│   └── popup.js               # 模式切换与存储双向同步逻辑
-├── background/                # Service Worker
-│   └── background.js          # 生命周期与徽章管理
-└── test/                      # 自动化测试套件
-    └── run_tests.js           # 自动化测试执行器
-```
+- **零数据收集**：本插件不收集、不存储、不上传任何用户对话内容、Prompt 提示词、Token 或个人账户信息。
+- **纯本地运行**：所有逻辑与样式替换均在客户端浏览器本地执行，无外部网络请求或分析脚本注入。
+- **最小权限原则**：仅声明了对 `https://aistudio.google.com/*` 站点的定向权限，绝不触碰非目标站点的浏览数据。
 
 ---
 
-## 📜 许可证
+## 开源许可证
 
-MIT License
+本项目采用 [MIT 许可证](LICENSE) 开源发布。
