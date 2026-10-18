@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <b>GPU Rendering Acceleration & UX Enhancement Extension for Google AI Studio (Manifest V3)</b>
+  <b>Web UI Rendering Optimization & Client Hardware Load Reduction Extension for Google AI Studio (Manifest V3)</b>
 </p>
 
 <p align="center">
@@ -23,7 +23,9 @@
 
 </div>
 
-AI Studio Turbo is a performance-focused browser extension deeply customized for [Google AI Studio](https://aistudio.google.com/). Designed specifically to resolve frame drops, typing latency, high GPU temperatures, and memory pressure caused by heavy Gaussian blurs, continuous keyframe animations, redundant composite layers, and automatic smooth scrolling during token streaming—especially on integrated GPUs and legacy hardware—while strictly preserving all native functions and original interface layouts.
+AI Studio Turbo is a browser extension deeply customized for [Google AI Studio](https://aistudio.google.com/) focusing on **client-side Web UI rendering optimization and interface fluidity**. Designed specifically to resolve page frame drops, typing stutter, local device heat, and video memory pressure caused by heavy web Gaussian blurs, continuous CSS keyframe animations, redundant composite layers, and automatic smooth scrolling during streaming responses—especially on laptops and integrated GPUs—while strictly preserving all native functions and original interface layouts.
+
+> **Important Scope Clarification**: This project is strictly a **client-side browser UI rendering and performance optimization tool** designed to reduce local device hardware load and eliminate web interface lag. **It does NOT provide, proxy, or alter cloud AI model inference compute, remote GPU server quotas, or API token generation speeds.**
 
 ---
 

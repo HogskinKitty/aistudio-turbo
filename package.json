@@ -1,7 +1,7 @@
 {
   "name": "aistudio-turbo",
   "version": "1.0.0",
-  "description": "Chrome extension to optimize Google AI Studio GPU rendering performance and eliminate animation lag",
+  "description": "Chrome extension to optimize Google AI Studio Web UI rendering performance and eliminate browser animation lag",
   "main": "background/background.js",
   "scripts": {
     "test": "node test/run_tests.js"
