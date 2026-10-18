@@ -55,11 +55,26 @@ function getStorage(callback) {
   });
 }
 
+function updateBadge(enabled) {
+  if (typeof chrome !== 'undefined' && chrome.action && chrome.action.setBadgeText) {
+    if (enabled) {
+      chrome.action.setBadgeText({ text: '' });
+    } else {
+      chrome.action.setBadgeText({ text: 'off' });
+      chrome.action.setBadgeBackgroundColor({ color: '#5f6368' });
+      if (chrome.action.setBadgeTextColor) {
+        chrome.action.setBadgeTextColor({ color: '#ffffff' });
+      }
+    }
+  }
+}
+
 function saveStorage(config) {
   currentConfig = Object.assign({}, config);
   if (storageArea) {
     storageArea.set({ aistudio_turbo_config: currentConfig });
   }
+  updateBadge(Boolean(currentConfig.enabled));
   updateUI();
 }
 

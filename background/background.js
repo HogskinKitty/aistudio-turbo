@@ -13,24 +13,31 @@ const DEFAULT_CONFIG = {
   noRipple: true,
   flatShadow: true,
   reduceLayers: true,
-  showHud: false
+  roundedPrompt: true
 };
 
 function updateBadge(enabled) {
-  if (chrome.action && chrome.action.setBadgeText) {
+  if (typeof chrome !== 'undefined' && chrome.action && chrome.action.setBadgeText) {
     if (enabled) {
-      chrome.action.setBadgeText({ text: 'ON' });
-      chrome.action.setBadgeBackgroundColor({ color: '#1a73e8' });
+      // 开启状态下保持图标干净，不显示 ON 徽标
+      chrome.action.setBadgeText({ text: '' });
     } else {
-      chrome.action.setBadgeText({ text: 'OFF' });
+      // 仅在明确关闭优化时，显示低调小巧的 off 徽标
+      chrome.action.setBadgeText({ text: 'off' });
       chrome.action.setBadgeBackgroundColor({ color: '#5f6368' });
+      if (chrome.action.setBadgeTextColor) {
+        chrome.action.setBadgeTextColor({ color: '#ffffff' });
+      }
     }
   }
 }
 
-chrome.runtime.onInstalled.addListener(() => {
-  const storageArea = (chrome.storage && chrome.storage.sync) || (chrome.storage && chrome.storage.local);
-  if (!storageArea) return;
+function initBadge() {
+  const storageArea = (typeof chrome !== 'undefined' && chrome.storage && (chrome.storage.sync || chrome.storage.local)) || null;
+  if (!storageArea) {
+    updateBadge(true);
+    return;
+  }
 
   storageArea.get(['aistudio_turbo_config'], (result) => {
     if (!result || !result.aistudio_turbo_config) {
@@ -41,9 +48,20 @@ chrome.runtime.onInstalled.addListener(() => {
       updateBadge(Boolean(result.aistudio_turbo_config.enabled));
     }
   });
-});
+}
 
-if (chrome.storage && chrome.storage.onChanged) {
+// 扩展安装或更新时的生命周期监听
+if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.onInstalled) {
+  chrome.runtime.onInstalled.addListener(() => {
+    initBadge();
+  });
+}
+
+// 扩展启动或后台线程唤醒时立即同步徽标
+initBadge();
+
+// 监听存储配置变动并实时刷新徽标
+if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.onChanged) {
   chrome.storage.onChanged.addListener((changes) => {
     if (changes.aistudio_turbo_config) {
       const newConf = changes.aistudio_turbo_config.newValue;

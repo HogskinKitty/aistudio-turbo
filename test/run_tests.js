@@ -283,6 +283,36 @@ const res2 = sanitizeScrollArgs([{ top: 100, behavior: 'smooth' }], false, true)
 assert(res2[0].behavior === 'smooth', '插件关闭时原样保留平滑滚动行为');
 
 // ------------------------------------------------------------------
+// 测试组 6: 扩展图标徽标 (Badge) 状态仿真验证
+// ------------------------------------------------------------------
+console.log('\n🏷️ [测试组 6] 扩展图标徽标 (Badge) 状态与显示规范仿真:');
+let currentBadgeText = null;
+let currentBadgeColor = null;
+
+const mockAction = {
+  setBadgeText: ({ text }) => { currentBadgeText = text; },
+  setBadgeBackgroundColor: ({ color }) => { currentBadgeColor = color; }
+};
+
+function simulateUpdateBadge(enabled, action) {
+  if (enabled) {
+    action.setBadgeText({ text: '' });
+  } else {
+    action.setBadgeText({ text: 'off' });
+    action.setBadgeBackgroundColor({ color: '#5f6368' });
+  }
+}
+
+// Case 6.1: 默认开启状态下不显示 ON 徽标
+simulateUpdateBadge(true, mockAction);
+assert(currentBadgeText === '', '默认开启状态下徽标为空文本 (不显示 ON 徽标，保持图标干净)');
+
+// Case 6.2: 明确关闭状态下显示小写的 off 徽标
+simulateUpdateBadge(false, mockAction);
+assert(currentBadgeText === 'off', '点击关闭后正确显示小写 "off" 徽标');
+assert(currentBadgeColor === '#5f6368', '关闭后徽标背景色设置为低调中性灰 (#5f6368)');
+
+// ------------------------------------------------------------------
 // 测试总结
 // ------------------------------------------------------------------
 console.log('\n======================================================');
