@@ -1,13 +1,27 @@
+<div align="center">
+
 # AI Studio Turbo
 
-> Google AI Studio GPU 渲染加速与交互体验优化扩展程序（Manifest V3）
+<p align="center">
+  <img src="icons/icon128.png" width="96" height="96" alt="AI Studio Turbo Logo">
+</p>
 
-[ 简体中文 ](README.md) · [ English ](README_EN.md)
+<p align="center">
+  <b>Google AI Studio GPU 渲染加速与交互体验优化扩展程序（Manifest V3）</b>
+</p>
 
-[![Manifest V3](https://img.shields.io/badge/Manifest-V3-4285F4.svg?style=flat-square)](https://developer.chrome.com/docs/extensions/mv3/intro/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Target Platform](https://img.shields.io/badge/Target-Google%20AI%20Studio-34A853.svg?style=flat-square)](https://aistudio.google.com/)
-[![Automated Tests](https://img.shields.io/badge/Tests-60%2F60%20Passing-brightgreen.svg?style=flat-square)](test/run_tests.js)
+<p align="center">
+  <a href="README.md">简体中文</a> &bull; <a href="README_EN.md">English</a>
+</p>
+
+<p align="center">
+  <a href="https://developer.chrome.com/docs/extensions/mv3/intro/"><img src="https://img.shields.io/badge/Manifest-V3-4285F4.svg?style=flat-square" alt="Manifest V3"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT"></a>
+  <a href="https://aistudio.google.com/"><img src="https://img.shields.io/badge/Target-Google%20AI%20Studio-34A853.svg?style=flat-square" alt="Target Platform"></a>
+  <a href="test/run_tests.js"><img src="https://img.shields.io/badge/Tests-71%2F71%20Passing-brightgreen.svg?style=flat-square" alt="Automated Tests"></a>
+</p>
+
+</div>
 
 AI Studio Turbo 是一款专为 [Google AI Studio](https://aistudio.google.com/) 深度定制的性能加速与交互体验优化浏览器扩展。针对集成核显及老旧显卡设备在复杂 Web 应用中因频繁高斯模糊、循环动画、过度复合图层以及流式文本自动平滑滚动所导致的掉帧、打字延迟和机身发热问题，在**完全保留原有全部功能与原生界面布局**的前提下，提供深度的 GPU 减负与零延迟交互体验。
 

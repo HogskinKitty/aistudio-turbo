@@ -1,13 +1,27 @@
+<div align="center">
+
 # AI Studio Turbo
 
-> GPU Rendering Acceleration & UX Enhancement Extension for Google AI Studio (Manifest V3)
+<p align="center">
+  <img src="icons/icon128.png" width="96" height="96" alt="AI Studio Turbo Logo">
+</p>
 
-[ English ](README_EN.md) · [ 简体中文 ](README.md)
+<p align="center">
+  <b>GPU Rendering Acceleration & UX Enhancement Extension for Google AI Studio (Manifest V3)</b>
+</p>
 
-[![Manifest V3](https://img.shields.io/badge/Manifest-V3-4285F4.svg?style=flat-square)](https://developer.chrome.com/docs/extensions/mv3/intro/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
-[![Target Platform](https://img.shields.io/badge/Target-Google%20AI%20Studio-34A853.svg?style=flat-square)](https://aistudio.google.com/)
-[![Automated Tests](https://img.shields.io/badge/Tests-60%2F60%20Passing-brightgreen.svg?style=flat-square)](test/run_tests.js)
+<p align="center">
+  <a href="README_EN.md">English</a> &bull; <a href="README.md">简体中文</a>
+</p>
+
+<p align="center">
+  <a href="https://developer.chrome.com/docs/extensions/mv3/intro/"><img src="https://img.shields.io/badge/Manifest-V3-4285F4.svg?style=flat-square" alt="Manifest V3"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License: MIT"></a>
+  <a href="https://aistudio.google.com/"><img src="https://img.shields.io/badge/Target-Google%20AI%20Studio-34A853.svg?style=flat-square" alt="Target Platform"></a>
+  <a href="test/run_tests.js"><img src="https://img.shields.io/badge/Tests-71%2F71%20Passing-brightgreen.svg?style=flat-square" alt="Automated Tests"></a>
+</p>
+
+</div>
 
 AI Studio Turbo is a performance-focused browser extension deeply customized for [Google AI Studio](https://aistudio.google.com/). Designed specifically to resolve frame drops, typing latency, high GPU temperatures, and memory pressure caused by heavy Gaussian blurs, continuous keyframe animations, redundant composite layers, and automatic smooth scrolling during token streaming—especially on integrated GPUs and legacy hardware—while strictly preserving all native functions and original interface layouts.
 

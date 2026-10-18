@@ -332,6 +332,8 @@ const readmeEn = fs.readFileSync(readmeEnPath, 'utf8');
 
 assert(readmeZh.includes('README_EN.md'), '中文 README 包含切换到英文文档的导航链接');
 assert(readmeEn.includes('README.md'), '英文 README 包含切换到中文文档的导航链接');
+assert(readmeZh.includes('<div align="center">') && readmeZh.includes('icons/icon128.png'), '中文 README 顶部内容居中并在名称下方展示扩展图标');
+assert(readmeEn.includes('<div align="center">') && readmeEn.includes('icons/icon128.png'), '英文 README 顶部内容居中并在名称下方展示扩展图标');
 
 const hasEmojiZh = Array.from(readmeZh).some((c) => c.codePointAt(0) > 0x1F000 || (c.codePointAt(0) >= 0x2600 && c.codePointAt(0) <= 0x27BF));
 const hasEmojiEn = Array.from(readmeEn).some((c) => c.codePointAt(0) > 0x1F000 || (c.codePointAt(0) >= 0x2600 && c.codePointAt(0) <= 0x27BF));
