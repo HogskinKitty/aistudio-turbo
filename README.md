@@ -67,8 +67,7 @@ aistudio-turbo/
 ├── manifest.json              # 核心清单文件 (MV3)
 ├── package.json               # 测试与工程配置文件
 ├── icons/                     # 16/32/48/128 高清图标与 SVG 原稿
-│   ├── Google_AI_Studio_icon.svg       # 官方原版图标
-│   ├── Google_AI_Studio_turbo_icon.svg # Turbo 定制版矢量图标
+│   ├── Google_AI_Studio_icon.svg       # 官方矢量图标
 │   ├── icon16.png
 │   ├── icon32.png
 │   ├── icon48.png
