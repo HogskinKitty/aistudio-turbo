@@ -14,30 +14,34 @@
         <img src="../icons/icon32.png" alt="Turbo Logo" class="brand-logo">
         <div class="brand-text">
           <h1 class="brand-title">AI Studio Turbo</h1>
-          <span class="brand-subtitle">GPU 减负 & 流畅度优化</span>
+          <span class="brand-subtitle" data-i18n="subtitle">GPU 减负 & 流畅度优化</span>
         </div>
       </div>
-      <!-- 总开关 -->
-      <label class="switch" title="开启/关闭优化">
-        <input type="checkbox" id="master-toggle" checked>
-        <span class="slider"></span>
-      </label>
+      <div class="header-actions">
+        <!-- 语言切换按钮 -->
+        <button class="lang-btn" id="btn-lang" title="Switch Language / 切换语言">EN</button>
+        <!-- 总开关 -->
+        <label class="switch" id="master-toggle-label" title="开启/关闭优化" data-i18n-title="masterTitle">
+          <input type="checkbox" id="master-toggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
     </header>
 
     <!-- 模式选择器 -->
     <section class="section">
       <div class="mode-selector">
         <button class="mode-btn active" data-mode="turbo" id="btn-mode-turbo">
-          <span class="mode-badge">推荐</span>
+          <span class="mode-badge" data-i18n="badgeRec">推荐</span>
           <div class="mode-head">
             <span class="mode-icon">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
               </svg>
             </span>
-            <span class="mode-name">Turbo 极速</span>
+            <span class="mode-name" data-i18n="turboName">Turbo 极速</span>
           </div>
-          <span class="mode-desc">均衡流畅</span>
+          <span class="mode-desc" data-i18n="turboDesc">均衡流畅</span>
         </button>
         <button class="mode-btn" data-mode="ultra" id="btn-mode-ultra">
           <div class="mode-head">
@@ -49,9 +53,9 @@
                 <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
               </svg>
             </span>
-            <span class="mode-name">Ultra 极致</span>
+            <span class="mode-name" data-i18n="ultraName">Ultra 极致</span>
           </div>
-          <span class="mode-desc">极致降耗</span>
+          <span class="mode-desc" data-i18n="ultraDesc">极致降耗</span>
         </button>
         <button class="mode-btn" data-mode="custom" id="btn-mode-custom">
           <div class="mode-head">
@@ -68,9 +72,9 @@
                 <line x1="17" y1="16" x2="23" y2="16"></line>
               </svg>
             </span>
-            <span class="mode-name">自定义</span>
+            <span class="mode-name" data-i18n="customName">自定义</span>
           </div>
-          <span class="mode-desc">自由配置</span>
+          <span class="mode-desc" data-i18n="customDesc">自由配置</span>
         </button>
       </div>
     </section>
@@ -79,8 +83,8 @@
     <section class="section custom-section" id="custom-options">
       <label class="option-item">
         <div class="option-info">
-          <span class="option-title">消除毛玻璃模糊</span>
-          <span class="option-desc">平替高斯模糊，杜绝界面重绘掉帧</span>
+          <span class="option-title" data-i18n="noBlurTitle">消除毛玻璃模糊</span>
+          <span class="option-desc" data-i18n="noBlurDesc">平替高斯模糊，杜绝界面重绘掉帧</span>
         </div>
         <span class="mini-switch">
           <input type="checkbox" id="opt-no-blur" checked>
@@ -90,8 +94,8 @@
 
       <label class="option-item">
         <div class="option-info">
-          <span class="option-title">冻结装饰动画</span>
-          <span class="option-desc">停止循环光效微动，闲置零功耗</span>
+          <span class="option-title" data-i18n="noAnimTitle">冻结装饰动画</span>
+          <span class="option-desc" data-i18n="noAnimDesc">停止循环光效微动，闲置零功耗</span>
         </div>
         <span class="mini-switch">
           <input type="checkbox" id="opt-no-anim" checked>
@@ -101,8 +105,8 @@
 
       <label class="option-item">
         <div class="option-info">
-          <span class="option-title">瞬时流式滚动</span>
-          <span class="option-desc">禁用平滑滚动，消除逐字打字卡顿</span>
+          <span class="option-title" data-i18n="fastScrollTitle">瞬时流式滚动</span>
+          <span class="option-desc" data-i18n="fastScrollDesc">禁用平滑滚动，消除逐字打字卡顿</span>
         </div>
         <span class="mini-switch">
           <input type="checkbox" id="opt-fast-scroll" checked>
@@ -112,8 +116,8 @@
 
       <label class="option-item">
         <div class="option-info">
-          <span class="option-title">零延迟交互过渡</span>
-          <span class="option-desc">菜单抽屉秒开秒合，保留弹窗原生质感</span>
+          <span class="option-title" data-i18n="fastTransitionTitle">零延迟交互过渡</span>
+          <span class="option-desc" data-i18n="fastTransitionDesc">菜单抽屉秒开秒合，保留弹窗原生质感</span>
         </div>
         <span class="mini-switch">
           <input type="checkbox" id="opt-fast-transition" checked>
@@ -123,8 +127,8 @@
 
       <label class="option-item">
         <div class="option-info">
-          <span class="option-title">移除点击涟漪</span>
-          <span class="option-desc">停用 Material 涟漪，按键更轻快</span>
+          <span class="option-title" data-i18n="noRippleTitle">移除点击涟漪</span>
+          <span class="option-desc" data-i18n="noRippleDesc">停用 Material 涟漪，按键更轻快</span>
         </div>
         <span class="mini-switch">
           <input type="checkbox" id="opt-no-ripple" checked>
@@ -134,8 +138,8 @@
 
       <label class="option-item">
         <div class="option-info">
-          <span class="option-title">精简渲染图层</span>
-          <span class="option-desc">减少 GPU 合成层，降低显存占用</span>
+          <span class="option-title" data-i18n="reduceLayersTitle">精简渲染图层</span>
+          <span class="option-desc" data-i18n="reduceLayersDesc">减少 GPU 合成层，降低显存占用</span>
         </div>
         <span class="mini-switch">
           <input type="checkbox" id="opt-reduce-layers" checked>
@@ -145,8 +149,8 @@
 
       <label class="option-item">
         <div class="option-info">
-          <span class="option-title">输入框圆润边框</span>
-          <span class="option-desc">升级 24px 优雅大圆角，柔和美观</span>
+          <span class="option-title" data-i18n="roundedPromptTitle">输入框圆润边框</span>
+          <span class="option-desc" data-i18n="roundedPromptDesc">升级 24px 优雅大圆角，柔和美观</span>
         </div>
         <span class="mini-switch">
           <input type="checkbox" id="opt-rounded-prompt" checked>
@@ -157,8 +161,8 @@
 
     <!-- 底部区域 -->
     <footer class="footer">
-      <button class="reset-btn" id="btn-reset">恢复默认预设</button>
-      <span class="footer-tip">v1.0.0 · 修改即时生效</span>
+      <button class="reset-btn" id="btn-reset" data-i18n="resetBtn">恢复默认预设</button>
+      <span class="footer-tip" data-i18n="footerTip">v1.0.0 · 修改即时生效</span>
     </footer>
   </div>
 

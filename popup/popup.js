@@ -15,12 +15,76 @@ const DEFAULT_CONFIG = {
   roundedPrompt: true
 };
 
+const I18N = {
+  zh: {
+    subtitle: 'GPU 减负 & 流畅度优化',
+    masterTitle: '开启/关闭优化',
+    langBtn: 'EN',
+    langTitle: '切换至英文 (English)',
+    badgeRec: '推荐',
+    turboName: 'Turbo 极速',
+    turboDesc: '均衡流畅',
+    ultraName: 'Ultra 极致',
+    ultraDesc: '极致降耗',
+    customName: '自定义',
+    customDesc: '自由配置',
+    noBlurTitle: '消除毛玻璃模糊',
+    noBlurDesc: '平替高斯模糊，杜绝界面重绘掉帧',
+    noAnimTitle: '冻结装饰动画',
+    noAnimDesc: '停止循环光效微动，闲置零功耗',
+    fastScrollTitle: '瞬时流式滚动',
+    fastScrollDesc: '禁用平滑滚动，消除逐字打字卡顿',
+    fastTransitionTitle: '零延迟交互过渡',
+    fastTransitionDesc: '菜单抽屉秒开秒合，保留弹窗原生质感',
+    noRippleTitle: '移除点击涟漪',
+    noRippleDesc: '停用 Material 涟漪，按键更轻快',
+    reduceLayersTitle: '精简渲染图层',
+    reduceLayersDesc: '减少 GPU 合成层，降低显存占用',
+    roundedPromptTitle: '输入框圆润边框',
+    roundedPromptDesc: '升级 24px 优雅大圆角，柔和美观',
+    resetBtn: '恢复默认预设',
+    footerTip: 'v1.0.0 · 修改即时生效'
+  },
+  en: {
+    subtitle: 'GPU Optimization & Fluidity',
+    masterTitle: 'Enable / Disable Optimization',
+    langBtn: '中',
+    langTitle: '切换至中文 (Chinese)',
+    badgeRec: 'REC',
+    turboName: 'Turbo',
+    turboDesc: 'Balanced',
+    ultraName: 'Ultra',
+    ultraDesc: 'Max Eco',
+    customName: 'Custom',
+    customDesc: 'Tailored',
+    noBlurTitle: 'Disable Backdrop Blur',
+    noBlurDesc: 'Replace Gaussian blur to eliminate repaint drops',
+    noAnimTitle: 'Freeze Decorative Animations',
+    noAnimDesc: 'Stop looping effects for zero idle power',
+    fastScrollTitle: 'Instant Stream Scrolling',
+    fastScrollDesc: 'Disable smooth scrolling to eliminate stream stutter',
+    fastTransitionTitle: 'Zero-Delay Transitions',
+    fastTransitionDesc: 'Instant menus & drawers while preserving native dialogs',
+    noRippleTitle: 'Disable Click Ripples',
+    noRippleDesc: 'Remove Material ripple bloat for snappier clicks',
+    reduceLayersTitle: 'Reduce Render Layers',
+    reduceLayersDesc: 'Minimize GPU compositing layers and VRAM usage',
+    roundedPromptTitle: 'Rounded Prompt Box',
+    roundedPromptDesc: '24px smooth outer corners for refined aesthetics',
+    resetBtn: 'Reset to Default',
+    footerTip: 'v1.0.0 · Changes apply instantly'
+  }
+};
+
 const storageArea = (typeof chrome !== 'undefined' && chrome.storage && (chrome.storage.sync || chrome.storage.local)) || null;
 
 let currentConfig = Object.assign({}, DEFAULT_CONFIG);
+let currentLang = 'zh';
 
 // DOM 元素引用
 const masterToggle = document.getElementById('master-toggle');
+const masterToggleLabel = document.getElementById('master-toggle-label');
+const btnLang = document.getElementById('btn-lang');
 const customOptions = document.getElementById('custom-options');
 
 const modeButtons = {
@@ -41,17 +105,55 @@ const optionInputs = {
 
 const btnReset = document.getElementById('btn-reset');
 
+function detectLanguage() {
+  const browserLang = (typeof chrome !== 'undefined' && chrome.i18n && chrome.i18n.getUILanguage && chrome.i18n.getUILanguage()) ||
+                      (typeof navigator !== 'undefined' && (navigator.language || navigator.userLanguage)) ||
+                      'zh';
+  return browserLang.toLowerCase().startsWith('zh') ? 'zh' : 'en';
+}
+
+function applyLanguage(lang) {
+  currentLang = (lang === 'zh' || lang === 'en') ? lang : 'zh';
+  const dict = I18N[currentLang] || I18N.zh;
+
+  document.documentElement.lang = currentLang === 'zh' ? 'zh-CN' : 'en';
+
+  // 绑定文案
+  document.querySelectorAll('[data-i18n]').forEach((el) => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) {
+      el.textContent = dict[key];
+    }
+  });
+
+  // 绑定 title
+  document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+    const key = el.getAttribute('data-i18n-title');
+    if (dict[key]) {
+      el.setAttribute('title', dict[key]);
+    }
+  });
+
+  // 语言切换按钮文案与提示
+  if (btnLang) {
+    btnLang.textContent = dict.langBtn;
+    btnLang.setAttribute('title', dict.langTitle);
+  }
+}
+
 function getStorage(callback) {
   if (!storageArea) {
-    callback(DEFAULT_CONFIG);
+    callback(DEFAULT_CONFIG, detectLanguage());
     return;
   }
-  storageArea.get(['aistudio_turbo_config'], (result) => {
-    if (result && result.aistudio_turbo_config) {
-      callback(Object.assign({}, DEFAULT_CONFIG, result.aistudio_turbo_config));
-    } else {
-      callback(Object.assign({}, DEFAULT_CONFIG));
-    }
+  storageArea.get(['aistudio_turbo_config', 'aistudio_language'], (result) => {
+    const conf = (result && result.aistudio_turbo_config)
+      ? Object.assign({}, DEFAULT_CONFIG, result.aistudio_turbo_config)
+      : Object.assign({}, DEFAULT_CONFIG);
+    const lang = (result && result.aistudio_language)
+      ? result.aistudio_language
+      : detectLanguage();
+    callback(conf, lang);
   });
 }
 
@@ -76,6 +178,14 @@ function saveStorage(config) {
   }
   updateBadge(Boolean(currentConfig.enabled));
   updateUI();
+}
+
+function saveLanguage(lang) {
+  currentLang = lang;
+  if (storageArea) {
+    storageArea.set({ aistudio_language: currentLang });
+  }
+  applyLanguage(currentLang);
 }
 
 function updateUI() {
@@ -115,6 +225,14 @@ function updateUI() {
 
 // 事件绑定
 function initEvents() {
+  // 语言切换
+  if (btnLang) {
+    btnLang.addEventListener('click', () => {
+      const targetLang = currentLang === 'zh' ? 'en' : 'zh';
+      saveLanguage(targetLang);
+    });
+  }
+
   // 总开关
   masterToggle.addEventListener('change', () => {
     currentConfig.enabled = masterToggle.checked;
@@ -171,8 +289,10 @@ function initThemeSync() {
 // 启动执行
 document.addEventListener('DOMContentLoaded', () => {
   initThemeSync();
-  getStorage((conf) => {
+  getStorage((conf, lang) => {
     currentConfig = conf;
+    currentLang = lang;
+    applyLanguage(currentLang);
     initEvents();
     updateUI();
   });

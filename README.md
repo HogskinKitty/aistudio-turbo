@@ -2,6 +2,8 @@
 
 > Google AI Studio GPU 渲染加速与交互体验优化扩展程序（Manifest V3）
 
+[ 简体中文 ](README.md) · [ English ](README_EN.md)
+
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-4285F4.svg?style=flat-square)](https://developer.chrome.com/docs/extensions/mv3/intro/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Target Platform](https://img.shields.io/badge/Target-Google%20AI%20Studio-34A853.svg?style=flat-square)](https://aistudio.google.com/)
@@ -108,7 +110,8 @@ aistudio-turbo/
 ├── manifest.json              # 核心清单文件 (MV3 规范)
 ├── package.json               # 工程与测试套件配置
 ├── LICENSE                    # MIT 开源许可证
-├── README.md                  # 项目说明文档
+├── README.md                  # 项目中文说明文档
+├── README_EN.md               # English Documentation
 ├── icons/                     # 多尺寸高清矢量与位图资产
 │   ├── Google_AI_Studio_icon.svg
 │   ├── icon16.png

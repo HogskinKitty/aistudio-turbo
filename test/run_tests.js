@@ -316,6 +316,38 @@ assert(currentBadgeText === 'off', '点击关闭后正确显示小写 "off" 徽�
 assert(currentBadgeColor === '#5f6368', '关闭后徽标背景色设置为低调中性灰 (#5f6368)');
 
 // ------------------------------------------------------------------
+// 测试组 7: 国际化多语言与双语说明文档规范性验证
+// ------------------------------------------------------------------
+console.log('\n🌐 [测试组 7] 国际化多语言与双语说明文档完备性:');
+const readmeZhPath = path.join(ROOT_DIR, 'README.md');
+const readmeEnPath = path.join(ROOT_DIR, 'README_EN.md');
+const popupHtmlPath = path.join(ROOT_DIR, 'popup', 'popup.html');
+const popupJsPath = path.join(ROOT_DIR, 'popup', 'popup.js');
+
+assert(fs.existsSync(readmeZhPath), '中文说明文档存在: README.md');
+assert(fs.existsSync(readmeEnPath), '英文说明文档存在: README_EN.md');
+
+const readmeZh = fs.readFileSync(readmeZhPath, 'utf8');
+const readmeEn = fs.readFileSync(readmeEnPath, 'utf8');
+
+assert(readmeZh.includes('README_EN.md'), '中文 README 包含切换到英文文档的导航链接');
+assert(readmeEn.includes('README.md'), '英文 README 包含切换到中文文档的导航链接');
+
+const hasEmojiZh = Array.from(readmeZh).some((c) => c.codePointAt(0) > 0x1F000 || (c.codePointAt(0) >= 0x2600 && c.codePointAt(0) <= 0x27BF));
+const hasEmojiEn = Array.from(readmeEn).some((c) => c.codePointAt(0) > 0x1F000 || (c.codePointAt(0) >= 0x2600 && c.codePointAt(0) <= 0x27BF));
+assert(!hasEmojiZh, 'README.md 严格无任何 emoji 字符，符合专业技术文档规范');
+assert(!hasEmojiEn, 'README_EN.md 严格无任何 emoji 字符，符合专业技术文档规范');
+
+const popupHtmlContent = fs.readFileSync(popupHtmlPath, 'utf8');
+assert(popupHtmlContent.includes('id="btn-lang"'), 'Popup HTML 包含语言切换按钮: #btn-lang');
+assert(popupHtmlContent.includes('data-i18n='), 'Popup HTML 包含 data-i18n 属性用于国际化动态绑定');
+
+const popupJsContent = fs.readFileSync(popupJsPath, 'utf8');
+assert(popupJsContent.includes('I18N'), 'Popup JS 包含 I18N 词条对照表');
+assert(popupJsContent.includes('applyLanguage'), 'Popup JS 包含 applyLanguage 动态渲染函数');
+assert(popupJsContent.includes('detectLanguage'), 'Popup JS 包含 detectLanguage 自动适配浏览器语言函数');
+
+// ------------------------------------------------------------------
 // 测试总结
 // ------------------------------------------------------------------
 console.log('\n======================================================');

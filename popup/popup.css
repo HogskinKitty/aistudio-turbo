@@ -163,6 +163,36 @@ html, body {
   color: var(--text-secondary);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lang-btn {
+  background: var(--card-bg);
+  color: var(--text-secondary);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  line-height: 1.4;
+  user-select: none;
+}
+
+.lang-btn:hover {
+  background: var(--card-hover-bg);
+  color: var(--text-primary);
+  border-color: var(--card-hover-border);
+}
+
+.lang-btn:active {
+  transform: scale(0.95);
+}
+
 /* 开关组件 */
 .switch {
   position: relative;
